@@ -35,7 +35,7 @@ public class FileSystemWsaaDao implements WsaaDao {
 	}
 
 	@Override
-	public CompanyInfo loadCompanyInfo() {
+	public CompanyInfo loadActiveCompanyInfo() {
 		try (Reader in = new InputStreamReader(new FileInputStream(path))) {
 			return gson.fromJson(in, CompanyInfo.class);
 		} catch (IOException e) {

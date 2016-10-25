@@ -139,12 +139,13 @@ public class LoginTicketRequest {
 				Store<X509Certificate> certs = new JcaCertStore(certList);
 
 				CMSSignedDataGenerator gen = new CMSSignedDataGenerator();
-				ContentSigner sha1Signer = new JcaContentSignerBuilder(
-						"SHA1withRSA").setProvider("BC").build(privateKey);
+				ContentSigner signer = new JcaContentSignerBuilder(
+						BouncyCastleWsaaManager.SIGNING_ALGORITHM)
+					.setProvider("BC").build(privateKey);
 
 				gen.addSignerInfoGenerator(new JcaSignerInfoGeneratorBuilder(
 						new JcaDigestCalculatorProviderBuilder().setProvider(
-								"BC").build()).build(sha1Signer, signCert));
+								"BC").build()).build(signer, signCert));
 
 				gen.addCertificates(certs);
 

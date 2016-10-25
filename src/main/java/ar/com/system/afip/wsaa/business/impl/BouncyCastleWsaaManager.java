@@ -41,6 +41,7 @@ import com.google.common.base.Throwables;
 import com.thoughtworks.xstream.XStream;
 
 public class BouncyCastleWsaaManager implements WsaaManager {
+	static final String SIGNING_ALGORITHM = "SHA512withRSA";
 	private final WsaaDao wsaaDao;
 	private final SetupDao setupDao;
 	private final LoginCMS loginCms;
@@ -58,27 +59,24 @@ public class BouncyCastleWsaaManager implements WsaaManager {
 	}
 
 	@Override
-	public void initialize(String companyName, String unit, String cuit) {
-		checkNotNull(companyName);
-		checkNotNull(unit);
-		checkNotNull(cuit);
-		try {
-			KeyPair keyPair = buildKeys();
-			wsaaDao.saveCompanyInfo(new CompanyInfo(companyName, unit, cuit,
-					toPem(keyPair.getPublic()), toPem(keyPair.getPrivate()),
-					null));
-		} catch (IOException e) {
-			Throwables.propagate(e);
-		}
-	}
-
-	@Override
 	public void initializeKeys() {
 		try {
-			CompanyInfo info = wsaaDao.loadCompanyInfo();
+			CompanyInfo info = wsaaDao.loadActiveCompanyInfo();
 			KeyPair keyPair = buildKeys();
-			wsaaDao.saveCompanyInfo(new CompanyInfo(info.getName(), info.getUnit(), info.getCuit(),
-					toPem(keyPair.getPublic()), toPem(keyPair.getPrivate()), null));
+			wsaaDao.saveCompanyInfo(new CompanyInfo(info.getId(),
+					info.getName(),
+					info.isActive(),
+					info.getUnit(),
+					info.getCuit(),
+					toPem(keyPair.getPublic()),
+					toPem(keyPair.getPrivate()),
+					null,
+					info.getGrossIncome(),
+					info.getActivityStartDate(),
+					info.getTaxCategory(),
+					info.getAddress(),
+					info.getLocation(),
+					info.getAlias()));
 		} catch (IOException e) {
 			Throwables.propagate(e);
 		}
@@ -87,7 +85,7 @@ public class BouncyCastleWsaaManager implements WsaaManager {
 	@Override
 	public String buildCertificateRequest() {
 		try {
-			CompanyInfo companyInfo = wsaaDao.loadCompanyInfo();
+			CompanyInfo companyInfo = wsaaDao.loadActiveCompanyInfo();
 
 			JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
 
@@ -99,7 +97,7 @@ public class BouncyCastleWsaaManager implements WsaaManager {
 					.getPublicKeyInfo());
 
 			X500Principal subject = new X500Principal(companyInfo.buildSource());
-			ContentSigner signGen = new JcaContentSignerBuilder("SHA1withRSA")
+			ContentSigner signGen = new JcaContentSignerBuilder(SIGNING_ALGORITHM)
 					.build(privateKey);
 
 			PKCS10CertificationRequest csr = new JcaPKCS10CertificationRequestBuilder(
@@ -114,17 +112,27 @@ public class BouncyCastleWsaaManager implements WsaaManager {
 	@Override
 	public void updateCertificate(String certificate) {
 		checkNotNull(certificate);
-		CompanyInfo companyInfo = wsaaDao.loadCompanyInfo();
-		wsaaDao.saveCompanyInfo(new CompanyInfo(companyInfo.getName(),
-				companyInfo.getUnit(), companyInfo.getCuit(), companyInfo
-						.getPublicKey(), companyInfo.getPrivateKey(),
-				certificate));
+		CompanyInfo info = wsaaDao.loadActiveCompanyInfo();
+		wsaaDao.saveCompanyInfo(new CompanyInfo(info.getId(),
+				info.getName(),
+				info.isActive(),
+				info.getUnit(),
+				info.getCuit(),
+				info.getPublicKey(),
+				info.getPrivateKey(),
+				certificate,
+				info.getGrossIncome(),
+				info.getActivityStartDate(),
+				info.getTaxCategory(),
+				info.getAddress(),
+				info.getLocation(),
+				info.getAlias()));
 	}
 
 	@Override
 	public Credentials login(Service service) {
 		try {
-			CompanyInfo companyInfo = wsaaDao.loadCompanyInfo();
+			CompanyInfo companyInfo = wsaaDao.loadActiveCompanyInfo();
 			checkNotNull(companyInfo.getName(),
 					"Debe configurar el nombre de la empresa antes de realizar el login");
 			checkNotNull(companyInfo.getUnit(),
@@ -186,7 +194,7 @@ public class BouncyCastleWsaaManager implements WsaaManager {
 		try {
 
 			KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
-			keyGen.initialize(1024);
+			keyGen.initialize(2048);
 			return keyGen.genKeyPair();
 		} catch (NoSuchAlgorithmException e) {
 			throw Throwables.propagate(e);

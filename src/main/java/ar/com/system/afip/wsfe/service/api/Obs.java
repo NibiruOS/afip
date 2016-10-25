@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Obs", propOrder = { "code", "msg" })
-public class Obs {
+public class Obs implements WsfeError {
 
 	@XmlElement(name = "Code")
 	protected int code;
@@ -41,6 +41,7 @@ public class Obs {
 	 * Obtiene el valor de la propiedad code.
 	 * 
 	 */
+	@Override
 	public int getCode() {
 		return code;
 	}
@@ -59,6 +60,7 @@ public class Obs {
 	 * @return possible object is {@link String }
 	 * 
 	 */
+	@Override
 	public String getMsg() {
 		return msg;
 	}

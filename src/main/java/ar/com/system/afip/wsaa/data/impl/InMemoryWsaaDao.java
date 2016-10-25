@@ -13,7 +13,7 @@ public class InMemoryWsaaDao implements WsaaDao {
 	}
 
 	@Override
-	public CompanyInfo loadCompanyInfo() {
+	public CompanyInfo loadActiveCompanyInfo() {
 		return companyInfo;
 	}
 

@@ -2,11 +2,10 @@ package ar.com.system.afip.wsfe.business.impl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import com.google.common.base.Function;
 
 import ar.com.system.afip.wsaa.business.api.Service;
 import ar.com.system.afip.wsaa.business.api.WsaaTemplate;
@@ -28,6 +27,7 @@ import ar.com.system.afip.wsfe.service.api.FECAEAResponse;
 import ar.com.system.afip.wsfe.service.api.FECAEASinMov;
 import ar.com.system.afip.wsfe.service.api.FECAEASinMovConsResponse;
 import ar.com.system.afip.wsfe.service.api.FECAEASinMovResponse;
+import ar.com.system.afip.wsfe.service.api.FECAEDetResponse;
 import ar.com.system.afip.wsfe.service.api.FECAERequest;
 import ar.com.system.afip.wsfe.service.api.FECAEResponse;
 import ar.com.system.afip.wsfe.service.api.FECompConsResponse;
@@ -50,6 +50,10 @@ import ar.com.system.afip.wsfe.service.api.PaisTipo;
 import ar.com.system.afip.wsfe.service.api.PtoVenta;
 import ar.com.system.afip.wsfe.service.api.ServiceSoap;
 import ar.com.system.afip.wsfe.service.api.TributoTipo;
+import ar.com.system.afip.wsfe.service.api.WsfeError;
+
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 
 public class WsfeManagerImpl implements WsfeManager {
 	private final WsaaTemplate wsaaTemplate;
@@ -57,16 +61,18 @@ public class WsfeManagerImpl implements WsfeManager {
 	private final String cuit;
 
 	@Inject
-	public WsfeManagerImpl(WsaaTemplate.Factory wsaaTemplateFacory, ServiceSoap serviceSoap, WsaaDao wsaaDao) {
+	public WsfeManagerImpl(WsaaTemplate.Factory wsaaTemplateFacory,
+			ServiceSoap serviceSoap,
+			WsaaDao wsaaDao) {
 		this.wsaaTemplate = checkNotNull(wsaaTemplateFacory).create(Service.WSFE);
 		this.serviceSoap = checkNotNull(serviceSoap);
-		this.cuit = checkNotNull(wsaaDao).loadCompanyInfo().getCuit();
+		this.cuit = checkNotNull(wsaaDao).loadActiveCompanyInfo().getCuit();
 	}
 
 	@Override
 	public FECAEResponse fecaeSolicitar(final FECAERequest feCAEReq) {
 		checkNotNull(feCAEReq);
-		return checkErrors(wsaaTemplate.runAuhtenticated(new Function<Credentials, FECAEResponse>() {
+		return checkFecaErrors(wsaaTemplate.runAuhtenticated(new Function<Credentials, FECAEResponse>() {
 			@Override
 			public FECAEResponse apply(Credentials credentials) {
 				return serviceSoap.fecaeSolicitar(FEAuthRequest.fromCredentials(credentials, cuit), feCAEReq);
@@ -264,10 +270,55 @@ public class WsfeManagerImpl implements WsfeManager {
 	}
 
 	private <T extends HasErrors> T checkErrors(T response) {
-		if (response.getErrors() != null && response.getErrors().getErr() != null
-				&& !response.getErrors().getErr().isEmpty()) {
-			throw new WsfeException(response.getErrors().getErr());
+		Collection<? extends WsfeError> errors = getErrors(response);
+		if (errors != null) {
+			throw new WsfeException(errors);
 		}
 		return response;
+	}
+
+	private FECAEResponse checkFecaErrors(FECAEResponse response) {
+		List<WsfeError> errors = Lists.newArrayList();
+		Collection<? extends WsfeError> errs = getErrors(response);
+		if (errs != null) {
+			errors.addAll(errs);
+		}
+		Collection<? extends WsfeError> obs = getObservations(response);
+		if (obs != null) {
+			errors.addAll(obs);
+		}
+		if (!errors.isEmpty()) {
+			throw new WsfeException(errors);
+		}
+		return response;
+	}
+
+	private Collection<? extends WsfeError> getErrors(HasErrors response) {
+		if (response.getErrors() != null
+				&& response.getErrors().getErr() != null
+				&& !response.getErrors().getErr().isEmpty()) {
+			return response.getErrors().getErr();
+		} else {
+			return null;
+		}
+	}
+
+	private Collection<? extends WsfeError> getObservations(
+			FECAEResponse response) {
+		List<WsfeError> errors = Lists.newArrayList();
+		for (FECAEDetResponse detResponse : response.getFeDetResp()
+				.getFECAEDetResponse()) {
+			Collection<? extends WsfeError> obs = getObservations(detResponse);
+			if (obs != null) {
+				errors.addAll(obs);
+			}
+		}
+		return errors.isEmpty() ? null : errors;
+	}
+
+	private Collection<? extends WsfeError> getObservations(
+			FECAEDetResponse detResponse) {
+		return detResponse.getObservaciones() != null ? detResponse
+				.getObservaciones().getObs() : null;
 	}
 }

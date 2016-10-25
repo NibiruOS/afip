@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Err", propOrder = { "code", "msg" })
-public class Err {
+public class Err implements WsfeError {
 
 	@XmlElement(name = "Code")
 	protected int code;
@@ -41,6 +41,7 @@ public class Err {
 	 * Obtiene el valor de la propiedad code.
 	 * 
 	 */
+	@Override
 	public int getCode() {
 		return code;
 	}
@@ -59,6 +60,7 @@ public class Err {
 	 * @return possible object is {@link String }
 	 * 
 	 */
+	@Override
 	public String getMsg() {
 		return msg;
 	}
@@ -74,4 +76,8 @@ public class Err {
 		this.msg = value;
 	}
 
+	@Override
+	public String toString() {
+		return "Err [code=" + code + ", msg=" + msg + "]";
+	}
 }

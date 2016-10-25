@@ -3,11 +3,14 @@ package ar.com.system.afip.wsaa.business.impl;
 import java.util.Date;
 
 public class Header {
-	private final String source;
-	private final String destination;
-	private final long uniqueId;
-	private final Date generationTime;
-	private final Date expirationTime;
+	private String source;
+	private String destination;
+	private long uniqueId;
+	private Date generationTime;
+	private Date expirationTime;
+
+	Header() {
+	}
 
 	Header(String source, String destination, long uniqueId,
 			Date generationTime, Date expirationTime) {

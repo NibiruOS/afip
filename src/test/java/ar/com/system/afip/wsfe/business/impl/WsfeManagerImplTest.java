@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.Date;
@@ -14,6 +15,7 @@ import org.junit.Test;
 import ar.com.system.afip.wsaa.business.impl.BouncyCastleWsaaManagerTest;
 import ar.com.system.afip.wsaa.business.impl.WsaaTemplateImpl;
 import ar.com.system.afip.wsaa.data.api.CompanyInfo;
+import ar.com.system.afip.wsaa.data.api.TaxCategory;
 import ar.com.system.afip.wsaa.data.api.WsaaDao;
 import ar.com.system.afip.wsaa.data.impl.HomoSetupDao;
 import ar.com.system.afip.wsaa.data.impl.InMemoryWsaaDao;
@@ -117,11 +119,11 @@ public class WsfeManagerImplTest {
 			wsfeManager.fecaeSolicitar(new FECAERequest());
 			fail("WsfeException expected");
 		} catch (WsfeException expected) {
-			assertEquals(1, expected.getErrors().size());
-			assertEquals(500, expected.getErrors().get(0).getCode());
+			assertTrue(expected.getErrors().iterator().hasNext());
+			assertEquals(500, expected.getErrors().iterator().next().getCode());
 			assertEquals(
 					"Error interno de aplicación: - Metodo FECAESolicitar - Object reference not set to an instance of an object.",
-					expected.getErrors().get(0).getMsg());
+					expected.getErrors().iterator().next().getMsg());
 		}
 	}
 
@@ -139,13 +141,20 @@ public class WsfeManagerImplTest {
 	
 	private WsaaDao buildDao() {
 		WsaaDao dao = new InMemoryWsaaDao();
-		dao.saveCompanyInfo(new CompanyInfo(
+		dao.saveCompanyInfo(new CompanyInfo(0,
 				BouncyCastleWsaaManagerTest.COMPANY,
+				true,
 				BouncyCastleWsaaManagerTest.UNIT,
 				BouncyCastleWsaaManagerTest.CUIT,
 				BouncyCastleWsaaManagerTest.PUBLIC_KEY,
 				BouncyCastleWsaaManagerTest.PRIVATE_KEY,
-				BouncyCastleWsaaManagerTest.CERTIFICATE));
+				BouncyCastleWsaaManagerTest.CERTIFICATE,
+				"",
+				new Date(),
+				TaxCategory.MONOTRIBUTO,
+				BouncyCastleWsaaManagerTest.ADDRESS,
+				BouncyCastleWsaaManagerTest.LOCATION,
+				BouncyCastleWsaaManagerTest.CN));
 		return dao;
 	}
 }
