@@ -42,6 +42,7 @@ import com.thoughtworks.xstream.XStream;
 
 public class BouncyCastleWsaaManager implements WsaaManager {
 	static final String SIGNING_ALGORITHM = "SHA512withRSA";
+	private static final int KEY_SIZE = 2048;
 	private final WsaaDao wsaaDao;
 	private final SetupDao setupDao;
 	private final LoginCMS loginCms;
@@ -194,7 +195,7 @@ public class BouncyCastleWsaaManager implements WsaaManager {
 		try {
 
 			KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
-			keyGen.initialize(2048);
+			keyGen.initialize(KEY_SIZE);
 			return keyGen.genKeyPair();
 		} catch (NoSuchAlgorithmException e) {
 			throw Throwables.propagate(e);

@@ -1,8 +1,18 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'maven'
+apply plugin: 'me.tatarka.retrolambda'
 
-sourceCompatibility = 1.7
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+	dependencies {
+		classpath 'me.tatarka:gradle-retrolambda:3.3.0-beta4'
+	}
+}
+
+sourceCompatibility = 1.8
 version = '0.1-SNAPSHOT'
 group = 'ar.com.system.afip'
 
@@ -13,19 +23,34 @@ repositories {
 	maven {
 		url "https://oss.sonatype.org/content/repositories/snapshots/"
 	}
+    maven {
+        url 'https://oss.sonatype.org/content/repositories/ksoap2-android-releases/'
+    }
 }
 
 jar {
    from sourceSets.main.java.srcDirs 
 }
 
+configurations {
+    provided
+}
+
+sourceSets {
+    main {
+        compileClasspath += configurations.provided
+    }
+}
+
 dependencies {
 	compile 'org.bouncycastle:bcpkix-jdk15on:1.52'
 	compile "com.google.code.findbugs:jsr305:2.0.3"
 	compile 'com.google.code.gson:gson:2.3.1'
-	compile 'com.google.guava:guava:18.0'
-	compile "com.google.inject:guice:3.0:no_aop"
+	compile 'com.google.guava:guava:20.0'
 	compile 'com.thoughtworks.xstream:xstream:1.4.8'
-	compile "javax.inject:javax.inject:1"
+	compile 'javax.inject:javax.inject:1'
+    compile 'com.google.code.ksoap2-android:ksoap2-android:3.6.2'
+    compile 'com.google.dagger:dagger:2.13'
+    provided 'com.google.dagger:dagger-compiler:2.13'
 	testCompile 'junit:junit:4.12'
 }
