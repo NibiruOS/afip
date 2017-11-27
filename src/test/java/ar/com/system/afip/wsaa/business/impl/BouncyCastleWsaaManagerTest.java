@@ -1,5 +1,7 @@
 package ar.com.system.afip.wsaa.business.impl;
 
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+
 import static org.junit.Assert.*;
 
 import java.util.Date;
@@ -39,7 +41,7 @@ public class BouncyCastleWsaaManagerTest {
 		return new BouncyCastleWsaaManager(dao,
 				new HomoSetupDao(),
 				new LoginCMSProvider(new HomoSetupDao()).get(),
-				new XStreamProvider().get());
+				new XmlMapperProvider().get());
 	}
 
 	private WsaaManager wsaaManager;

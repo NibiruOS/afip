@@ -1,12 +1,12 @@
 package ar.com.system.afip.wsaa.ioc;
 
-import com.thoughtworks.xstream.XStream;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import ar.com.system.afip.wsaa.business.api.WsaaManager;
 import ar.com.system.afip.wsaa.business.api.WsaaTemplate;
 import ar.com.system.afip.wsaa.business.impl.BouncyCastleWsaaManager;
 import ar.com.system.afip.wsaa.business.impl.WsaaTemplateImpl;
-import ar.com.system.afip.wsaa.business.impl.XStreamProvider;
+import ar.com.system.afip.wsaa.business.impl.XmlMapperProvider;
 import ar.com.system.afip.wsaa.service.api.LoginCMS;
 import ar.com.system.afip.wsaa.service.impl.KSoap2LoginCMS;
 import dagger.Module;
@@ -25,7 +25,7 @@ public class WsaaModule {
     }
 
     @Provides
-    public XStream getXStream(XStreamProvider provider) {
+    public XmlMapper getXmlMapper(XmlMapperProvider provider) {
         return provider.get();
     }
 
