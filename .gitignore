@@ -4,3 +4,10 @@
 .classpath
 bin
 build
+.idea
+/**/*.iml
+/**/gradle/
+gradlew
+gradlew.bat
+local.properties
+/.nb-gradle/

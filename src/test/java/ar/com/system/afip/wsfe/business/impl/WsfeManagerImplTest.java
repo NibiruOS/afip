@@ -122,7 +122,7 @@ public class WsfeManagerImplTest {
 			assertTrue(expected.getErrors().iterator().hasNext());
 			assertEquals(500, expected.getErrors().iterator().next().getCode());
 			assertEquals(
-					"Error interno de aplicación: - Metodo FECAESolicitar - Object reference not set to an instance of an object.",
+					"Error interno de aplicaciÃ³n: - Metodo FECAESolicitar - Object reference not set to an instance of an object.",
 					expected.getErrors().iterator().next().getMsg());
 		}
 	}

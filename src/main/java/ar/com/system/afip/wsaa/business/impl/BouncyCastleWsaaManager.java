@@ -142,7 +142,7 @@ public class BouncyCastleWsaaManager implements WsaaManager {
 			checkNotNull(companyInfo.getPrivateKey(),
 					"Debe configurar la clave privada antes de realizar el login");
 			checkNotNull(companyInfo.getPublicKey(),
-					"Debe configurar la clave pública antes de realizar el login");
+					"Debe configurar la clave publica antes de realizar el login");
 			checkNotNull(companyInfo.getCertificate(),
 					"Debe configurar el certificado antes de realizar el login");
 

@@ -72,201 +72,106 @@ public class WsfeManagerImpl implements WsfeManager {
 	@Override
 	public FECAEResponse fecaeSolicitar(final FECAERequest feCAEReq) {
 		checkNotNull(feCAEReq);
-		return checkFecaErrors(wsaaTemplate.runAuhtenticated(new Function<Credentials, FECAEResponse>() {
-			@Override
-			public FECAEResponse apply(Credentials credentials) {
-				return serviceSoap.fecaeSolicitar(FEAuthRequest.fromCredentials(credentials, cuit), feCAEReq);
-			}
-		}));
+		return checkFecaErrors(wsaaTemplate.runAuhtenticated(credentials -> serviceSoap.fecaeSolicitar(FEAuthRequest.fromCredentials(credentials, cuit), feCAEReq)));
 	}
 
 	@Override
 	public int feCompTotXRequest() {
-		return checkErrors(wsaaTemplate.runAuhtenticated(new Function<Credentials, FERegXReqResponse>() {
-			@Override
-			public FERegXReqResponse apply(Credentials credentials) {
-				return serviceSoap.feCompTotXRequest(FEAuthRequest.fromCredentials(credentials, cuit));
-			}
-		})).getRegXReq();
+		return checkErrors(wsaaTemplate.runAuhtenticated(credentials -> serviceSoap.feCompTotXRequest(FEAuthRequest.fromCredentials(credentials, cuit)))).getRegXReq();
 	}
 
 	@Override
 	public int feCompUltimoAutorizado(final int ptoVta, final int cbteTipo) {
-		return checkErrors(wsaaTemplate.runAuhtenticated(new Function<Credentials, FERecuperaLastCbteResponse>() {
-			@Override
-			public FERecuperaLastCbteResponse apply(Credentials credentials) {
-				return serviceSoap.feCompUltimoAutorizado(FEAuthRequest.fromCredentials(credentials, cuit), ptoVta,
-						cbteTipo);
-			}
-		})).getCbteNro();
+		return checkErrors(wsaaTemplate.runAuhtenticated(credentials -> serviceSoap.feCompUltimoAutorizado(FEAuthRequest.fromCredentials(credentials, cuit), ptoVta,
+                cbteTipo))).getCbteNro();
 	}
 
 	@Override
 	public FECompConsResponse feCompConsultar(final FECompConsultaReq feCompConsReq) {
 		checkNotNull(feCompConsReq);
-		return checkErrors(wsaaTemplate.runAuhtenticated(new Function<Credentials, FECompConsultaResponse>() {
-			@Override
-			public FECompConsultaResponse apply(Credentials credentials) {
-				return serviceSoap.feCompConsultar(FEAuthRequest.fromCredentials(credentials, cuit), feCompConsReq);
-			}
-		})).getResultGet();
+		return checkErrors(wsaaTemplate.runAuhtenticated(credentials -> serviceSoap.feCompConsultar(FEAuthRequest.fromCredentials(credentials, cuit), feCompConsReq))).getResultGet();
 	}
 
 	@Override
 	public FECAEAResponse fecaeaRegInformativo(final FECAEARequest feCAEARegInfReq) {
 		checkNotNull(feCAEARegInfReq);
-		return checkErrors(wsaaTemplate.runAuhtenticated(new Function<Credentials, FECAEAResponse>() {
-			@Override
-			public FECAEAResponse apply(Credentials credentials) {
-				return serviceSoap.fecaeaRegInformativo(FEAuthRequest.fromCredentials(credentials, cuit),
-						feCAEARegInfReq);
-			}
-		}));
+		return checkErrors(wsaaTemplate.runAuhtenticated(credentials -> serviceSoap.fecaeaRegInformativo(FEAuthRequest.fromCredentials(credentials, cuit),
+                feCAEARegInfReq)));
 	}
 
 	@Override
 	public FECAEAGet fecaeaSolicitar(final int periodo, final short orden) {
-		return checkErrors(wsaaTemplate.runAuhtenticated(new Function<Credentials, FECAEAGetResponse>() {
-			@Override
-			public FECAEAGetResponse apply(Credentials credentials) {
-				return serviceSoap.fecaeaSolicitar(FEAuthRequest.fromCredentials(credentials, cuit), periodo, orden);
-			}
-		})).getResultGet();
+		return checkErrors(wsaaTemplate.runAuhtenticated(credentials -> serviceSoap.fecaeaSolicitar(FEAuthRequest.fromCredentials(credentials, cuit), periodo, orden))).getResultGet();
 	}
 
 	@Override
 	public List<FECAEASinMov> fecaeaSinMovimientoConsultar(final String caea, final int ptoVta) {
 		checkNotNull(caea);
-		return checkErrors(wsaaTemplate.runAuhtenticated(new Function<Credentials, FECAEASinMovConsResponse>() {
-			@Override
-			public FECAEASinMovConsResponse apply(Credentials credentials) {
-				return serviceSoap.fecaeaSinMovimientoConsultar(FEAuthRequest.fromCredentials(credentials, cuit), caea,
-						ptoVta);
-			}
-		})).getResultGet().getFECAEASinMov();
+		return checkErrors(wsaaTemplate.runAuhtenticated(credentials -> serviceSoap.fecaeaSinMovimientoConsultar(FEAuthRequest.fromCredentials(credentials, cuit), caea,
+                ptoVta))).getResultGet().getFECAEASinMov();
 	}
 
 	@Override
 	public FECAEASinMovResponse fecaeaSinMovimientoInformar(final int ptoVta, final String caea) {
 		checkNotNull(caea);
-		return checkErrors(wsaaTemplate.runAuhtenticated(new Function<Credentials, FECAEASinMovResponse>() {
-			@Override
-			public FECAEASinMovResponse apply(Credentials credentials) {
-				return serviceSoap.fecaeaSinMovimientoInformar(FEAuthRequest.fromCredentials(credentials, cuit), ptoVta,
-						caea);
-			}
-		}));
+		return checkErrors(wsaaTemplate.runAuhtenticated(credentials -> serviceSoap.fecaeaSinMovimientoInformar(FEAuthRequest.fromCredentials(credentials, cuit), ptoVta,
+                caea)));
 	}
 
 	@Override
 	public FECAEAGet fecaeaConsultar(final int periodo, final short orden) {
-		return checkErrors(wsaaTemplate.runAuhtenticated(new Function<Credentials, FECAEAGetResponse>() {
-			@Override
-			public FECAEAGetResponse apply(Credentials credentials) {
-				return serviceSoap.fecaeaConsultar(FEAuthRequest.fromCredentials(credentials, cuit), periodo, orden);
-			}
-		})).getResultGet();
+		return checkErrors(wsaaTemplate.runAuhtenticated(credentials -> serviceSoap.fecaeaConsultar(FEAuthRequest.fromCredentials(credentials, cuit), periodo, orden))).getResultGet();
 	}
 
 	@Override
 	public Cotizacion feParamGetCotizacion(final String monId) {
 		checkNotNull(monId);
-		return checkErrors(wsaaTemplate.runAuhtenticated(new Function<Credentials, FECotizacionResponse>() {
-			@Override
-			public FECotizacionResponse apply(Credentials credentials) {
-				return serviceSoap.feParamGetCotizacion(FEAuthRequest.fromCredentials(credentials, cuit), monId);
-			}
-		})).getResultGet();
+		return checkErrors(wsaaTemplate.runAuhtenticated(credentials -> serviceSoap.feParamGetCotizacion(FEAuthRequest.fromCredentials(credentials, cuit), monId))).getResultGet();
 	}
 
 	@Override
 	public List<TributoTipo> feParamGetTiposTributos() {
-		return checkErrors(wsaaTemplate.runAuhtenticated(new Function<Credentials, FETributoResponse>() {
-			@Override
-			public FETributoResponse apply(Credentials credentials) {
-				return serviceSoap.feParamGetTiposTributos(FEAuthRequest.fromCredentials(credentials, cuit));
-			}
-		})).getResultGet().getTributoTipo();
+		return checkErrors(wsaaTemplate.runAuhtenticated(credentials -> serviceSoap.feParamGetTiposTributos(FEAuthRequest.fromCredentials(credentials, cuit)))).getResultGet().getTributoTipo();
 	}
 
 	@Override
 	public List<Moneda> feParamGetTiposMonedas() {
-		return checkErrors(wsaaTemplate.runAuhtenticated(new Function<Credentials, MonedaResponse>() {
-			@Override
-			public MonedaResponse apply(Credentials credentials) {
-				return serviceSoap.feParamGetTiposMonedas(FEAuthRequest.fromCredentials(credentials, cuit));
-			}
-		})).getResultGet().getMoneda();
+		return checkErrors(wsaaTemplate.runAuhtenticated(credentials -> serviceSoap.feParamGetTiposMonedas(FEAuthRequest.fromCredentials(credentials, cuit)))).getResultGet().getMoneda();
 	}
 
 	@Override
 	public List<IvaTipo> feParamGetTiposIva() {
-		return checkErrors(wsaaTemplate.runAuhtenticated(new Function<Credentials, IvaTipoResponse>() {
-			@Override
-			public IvaTipoResponse apply(Credentials credentials) {
-				return serviceSoap.feParamGetTiposIva(FEAuthRequest.fromCredentials(credentials, cuit));
-			}
-		})).getResultGet().getIvaTipo();
+		return checkErrors(wsaaTemplate.runAuhtenticated(credentials -> serviceSoap.feParamGetTiposIva(FEAuthRequest.fromCredentials(credentials, cuit)))).getResultGet().getIvaTipo();
 	}
 
 	@Override
 	public List<OpcionalTipo> feParamGetTiposOpcional() {
-		return checkErrors(wsaaTemplate.runAuhtenticated(new Function<Credentials, OpcionalTipoResponse>() {
-			@Override
-			public OpcionalTipoResponse apply(Credentials credentials) {
-				return serviceSoap.feParamGetTiposOpcional(FEAuthRequest.fromCredentials(credentials, cuit));
-			}
-		})).getResultGet().getOpcionalTipo();
+		return checkErrors(wsaaTemplate.runAuhtenticated(credentials -> serviceSoap.feParamGetTiposOpcional(FEAuthRequest.fromCredentials(credentials, cuit)))).getResultGet().getOpcionalTipo();
 	}
 
 	@Override
 	public List<ConceptoTipo> feParamGetTiposConcepto() {
-		return checkErrors(wsaaTemplate.runAuhtenticated(new Function<Credentials, ConceptoTipoResponse>() {
-			@Override
-			public ConceptoTipoResponse apply(Credentials credentials) {
-				return serviceSoap.feParamGetTiposConcepto(FEAuthRequest.fromCredentials(credentials, cuit));
-			}
-		})).getResultGet().getConceptoTipo();
+		return checkErrors(wsaaTemplate.runAuhtenticated(credentials -> serviceSoap.feParamGetTiposConcepto(FEAuthRequest.fromCredentials(credentials, cuit)))).getResultGet().getConceptoTipo();
 	}
 
 	@Override
 	public List<PtoVenta> feParamGetPtosVenta() {
-		return checkErrors(wsaaTemplate.runAuhtenticated(new Function<Credentials, FEPtoVentaResponse>() {
-			@Override
-			public FEPtoVentaResponse apply(Credentials credentials) {
-				return serviceSoap.feParamGetPtosVenta(FEAuthRequest.fromCredentials(credentials, cuit));
-			}
-		})).getResultGet().getPtoVenta();
+		return checkErrors(wsaaTemplate.runAuhtenticated(credentials -> serviceSoap.feParamGetPtosVenta(FEAuthRequest.fromCredentials(credentials, cuit)))).getResultGet().getPtoVenta();
 	}
 
 	@Override
 	public List<CbteTipo> feParamGetTiposCbte() {
-		return checkErrors(wsaaTemplate.runAuhtenticated(new Function<Credentials, CbteTipoResponse>() {
-			@Override
-			public CbteTipoResponse apply(Credentials credentials) {
-				return serviceSoap.feParamGetTiposCbte(FEAuthRequest.fromCredentials(credentials, cuit));
-			}
-		})).getResultGet().getCbteTipo();
+		return checkErrors(wsaaTemplate.runAuhtenticated(credentials -> serviceSoap.feParamGetTiposCbte(FEAuthRequest.fromCredentials(credentials, cuit)))).getResultGet().getCbteTipo();
 	}
 
 	@Override
 	public List<DocTipo> feParamGetTiposDoc() {
-		return checkErrors(wsaaTemplate.runAuhtenticated(new Function<Credentials, DocTipoResponse>() {
-			@Override
-			public DocTipoResponse apply(Credentials credentials) {
-				return serviceSoap.feParamGetTiposDoc(FEAuthRequest.fromCredentials(credentials, cuit));
-			}
-		})).getResultGet().getDocTipo();
+		return checkErrors(wsaaTemplate.runAuhtenticated(credentials -> serviceSoap.feParamGetTiposDoc(FEAuthRequest.fromCredentials(credentials, cuit)))).getResultGet().getDocTipo();
 	}
 
 	@Override
 	public List<PaisTipo> feParamGetTiposPaises() {
-		return checkErrors(wsaaTemplate.runAuhtenticated(new Function<Credentials, FEPaisResponse>() {
-			@Override
-			public FEPaisResponse apply(Credentials credentials) {
-				return serviceSoap.feParamGetTiposPaises(FEAuthRequest.fromCredentials(credentials, cuit));
-			}
-		})).getResultGet().getPaisTipo();
+		return checkErrors(wsaaTemplate.runAuhtenticated(credentials -> serviceSoap.feParamGetTiposPaises(FEAuthRequest.fromCredentials(credentials, cuit)))).getResultGet().getPaisTipo();
 	}
 
 	private <T extends HasErrors> T checkErrors(T response) {

@@ -8,9 +8,9 @@ import javax.xml.ws.ResponseWrapper;
 
 @WebService
 public interface LoginCMS {
-	static final String SERVICE_NAME = "LoginCMSService";
-	static final String PORT_NAME = "LoginCms";
-	static final String WSAA_NAMESPACE = "http://wsaa.view.sua.dvadac.desein.afip.gov";
+	String SERVICE_NAME = "LoginCMSService";
+	String PORT_NAME = "LoginCms";
+	String WSAA_NAMESPACE = "http://wsaa.view.sua.dvadac.desein.afip.gov";
 
 	@WebMethod
 	@WebResult(name = "loginCmsReturn", targetNamespace = LoginCMS.WSAA_NAMESPACE)

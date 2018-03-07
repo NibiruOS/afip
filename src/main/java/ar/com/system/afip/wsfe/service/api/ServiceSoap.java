@@ -9,12 +9,12 @@ import javax.xml.ws.ResponseWrapper;
 
 @WebService(name = "ServiceSoap")
 public interface ServiceSoap {
-	static final String SERVICE_NAME = "Service";
-	static final String PORT_NAME = "ServiceSoap";
-	static final String SERVICE_NAMESPACE = "http://ar.gov.afip.dif.FEV1/";
+	String SERVICE_NAME = "Service";
+	String PORT_NAME = "ServiceSoap";
+	String SERVICE_NAMESPACE = "http://ar.gov.afip.dif.FEV1/";
 
 	/**
-	 * Solicitud de Código de Autorización Electrónico (CAE)
+	 * Solicitud de Codigo de Autorizacion Electronico (CAE)
 	 */
 	@WebMethod(operationName = "FECAESolicitar", action = "http://ar.gov.afip.dif.FEV1/FECAESolicitar")
 	@WebResult(name = "FECAESolicitarResult", targetNamespace = ServiceSoap.SERVICE_NAMESPACE)
@@ -46,7 +46,7 @@ public interface ServiceSoap {
 
 	/**
 	 * Retorna el ultimo comprobante autorizado para el tipo de comprobante /
-	 * cuit / punto de venta ingresado / Tipo de Emisión
+	 * cuit / punto de venta ingresado / Tipo de EmisiÃ³n
 	 */
 	@WebMethod(operationName = "FECompUltimoAutorizado", action = "http://ar.gov.afip.dif.FEV1/FECompUltimoAutorizado")
 	@WebResult(name = "FECompUltimoAutorizadoResult", targetNamespace = ServiceSoap.SERVICE_NAMESPACE)
@@ -58,7 +58,7 @@ public interface ServiceSoap {
 			@WebParam(name = "CbteTipo", targetNamespace = ServiceSoap.SERVICE_NAMESPACE) int cbteTipo);
 
 	/**
-	 * Consulta Comprobante emitido y su código.
+	 * Consulta Comprobante emitido y su codigo.
 	 */
 	@WebMethod(operationName = "FECompConsultar", action = "http://ar.gov.afip.dif.FEV1/FECompConsultar")
 	@WebResult(name = "FECompConsultarResult", targetNamespace = ServiceSoap.SERVICE_NAMESPACE)
@@ -69,7 +69,7 @@ public interface ServiceSoap {
 			@WebParam(name = "FeCompConsReq", targetNamespace = ServiceSoap.SERVICE_NAMESPACE) FECompConsultaReq feCompConsReq);
 
 	/**
-	 * Rendición de comprobantes asociados a un CAEA.
+	 * Rendicion de comprobantes asociados a un CAEA.
 	 */
 	@WebMethod(operationName = "FECAEARegInformativo", action = "http://ar.gov.afip.dif.FEV1/FECAEARegInformativo")
 	@WebResult(name = "FECAEARegInformativoResult", targetNamespace = ServiceSoap.SERVICE_NAMESPACE)
@@ -80,7 +80,7 @@ public interface ServiceSoap {
 			@WebParam(name = "FeCAEARegInfReq", targetNamespace = ServiceSoap.SERVICE_NAMESPACE) FECAEARequest feCAEARegInfReq);
 
 	/**
-	 * Solicitud de Código de Autorización Electrónico Anticipado (CAEA)
+	 * Solicitud de Codigo de Autorizacion Electronico Anticipado (CAEA)
 	 */
 	@WebMethod(operationName = "FECAEASolicitar", action = "http://ar.gov.afip.dif.FEV1/FECAEASolicitar")
 	@WebResult(name = "FECAEASolicitarResult", targetNamespace = ServiceSoap.SERVICE_NAMESPACE)
@@ -153,7 +153,7 @@ public interface ServiceSoap {
 			@WebParam(name = "Auth", targetNamespace = ServiceSoap.SERVICE_NAMESPACE) FEAuthRequest auth);
 
 	/**
-	 * Recupera el listado de monedas utilizables en servicio de autorización
+	 * Recupera el listado de monedas utilizables en servicio de autorizacion
 	 */
 	@WebMethod(operationName = "FEParamGetTiposMonedas", action = "http://ar.gov.afip.dif.FEV1/FEParamGetTiposMonedas")
 	@WebResult(name = "FEParamGetTiposMonedasResult", targetNamespace = ServiceSoap.SERVICE_NAMESPACE)
@@ -164,7 +164,7 @@ public interface ServiceSoap {
 
 	/**
 	 * Recupera el listado de Tipos de Iva utilizables en servicio de
-	 * autorización.
+	 * autorizacion.
 	 */
 	@WebMethod(operationName = "FEParamGetTiposIva", action = "http://ar.gov.afip.dif.FEV1/FEParamGetTiposIva")
 	@WebResult(name = "FEParamGetTiposIvaResult", targetNamespace = ServiceSoap.SERVICE_NAMESPACE)
@@ -208,7 +208,7 @@ public interface ServiceSoap {
 
 	/**
 	 * Recupera el listado de Tipos de Comprobantes utilizables en servicio de
-	 * autorización.
+	 * autorizacion.
 	 */
 	@WebMethod(operationName = "FEParamGetTiposCbte", action = "http://ar.gov.afip.dif.FEV1/FEParamGetTiposCbte")
 	@WebResult(name = "FEParamGetTiposCbteResult", targetNamespace = ServiceSoap.SERVICE_NAMESPACE)
@@ -219,7 +219,7 @@ public interface ServiceSoap {
 
 	/**
 	 * Recupera el listado de Tipos de Documentos utilizables en servicio de
-	 * autorización.
+	 * autorizacion.
 	 */
 	@WebMethod(operationName = "FEParamGetTiposDoc", action = "http://ar.gov.afip.dif.FEV1/FEParamGetTiposDoc")
 	@WebResult(name = "FEParamGetTiposDocResult", targetNamespace = ServiceSoap.SERVICE_NAMESPACE)

@@ -24,7 +24,7 @@ import ar.com.system.afip.wsfe.service.api.TributoTipo;
 
 public interface WsfeManager {
 	/**
-	 * Solicitud de Código de Autorización Electrónico (CAE)
+	 * Solicitud de Codigo de Autorizacion Electronico (CAE)
 	 */
 	public FECAEResponse fecaeSolicitar(FECAERequest feCAEReq);
 
@@ -36,22 +36,22 @@ public interface WsfeManager {
 
 	/**
 	 * Retorna el ultimo comprobante autorizado para el tipo de comprobante /
-	 * cuit / punto de venta ingresado / Tipo de Emisión
+	 * cuit / punto de venta ingresado / Tipo de Emision
 	 */
 	public int feCompUltimoAutorizado(int ptoVta, int cbteTipo);
 
 	/**
-	 * Consulta Comprobante emitido y su código.
+	 * Consulta Comprobante emitido y su codigo.
 	 */
 	public FECompConsResponse feCompConsultar(FECompConsultaReq feCompConsReq);
 
 	/**
-	 * Rendición de comprobantes asociados a un CAEA.
+	 * Rendicion de comprobantes asociados a un CAEA.
 	 */
 	public FECAEAResponse fecaeaRegInformativo(FECAEARequest feCAEARegInfReq);
 
 	/**
-	 * Solicitud de Código de Autorización Electrónico Anticipado (CAEA)
+	 * Solicitud de Codigo de Autorizacion Electronico Anticipado (CAEA)
 	 */
 	public FECAEAGet fecaeaSolicitar(int periodo, short orden);
 
@@ -79,26 +79,24 @@ public interface WsfeManager {
 	 * Recupera el listado de los diferente tributos que pueden ser utilizados
 	 * en el servicio de autorizacion
 	 * 
-	 * @param auth
 	 * @return returns prueba.ws.wsfe.FETributoResponse
 	 */
 	public List<TributoTipo> feParamGetTiposTributos();
 
 	/**
-	 * Recupera el listado de monedas utilizables en servicio de autorización
+	 * Recupera el listado de monedas utilizables en servicio de autorizacion
 	 */
 	public List<Moneda> feParamGetTiposMonedas();
 
 	/**
 	 * Recupera el listado de Tipos de Iva utilizables en servicio de
-	 * autorización.
+	 * autorizacion.
 	 */
 	public List<IvaTipo> feParamGetTiposIva();
 
 	/**
 	 * Recupera el listado de identificadores para los campos Opcionales
 	 * 
-	 * @param auth
 	 * @return returns prueba.ws.wsfe.OpcionalTipoResponse
 	 */
 	public List<OpcionalTipo> feParamGetTiposOpcional();
@@ -115,13 +113,13 @@ public interface WsfeManager {
 
 	/**
 	 * Recupera el listado de Tipos de Comprobantes utilizables en servicio de
-	 * autorización.
+	 * autorizacion.
 	 */
 	public List<CbteTipo> feParamGetTiposCbte();
 
 	/**
 	 * Recupera el listado de Tipos de Documentos utilizables en servicio de
-	 * autorización.
+	 * autorizacion.
 	 */
 	public List<DocTipo> feParamGetTiposDoc();
 

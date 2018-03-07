@@ -29,8 +29,8 @@ public class WsaaTemplateImpl implements WsaaTemplate {
 	}
 
 	private final WsaaManager wsaaManager;
+	private final Service service;
 	private Credentials credentials;
-	private Service service;
 
 	private WsaaTemplateImpl(WsaaManager wsaaManager, Service service) {
 		this.wsaaManager = checkNotNull(wsaaManager);
@@ -45,7 +45,7 @@ public class WsaaTemplateImpl implements WsaaTemplate {
 			return callback.apply(credentials);
 		} catch (RuntimeException e) {
 			if (e.getMessage().equals(
-					"El tiempo de expiración es inferior a la hora actual")) {
+					"El tiempo de expiraciï¿½n es inferior a la hora actual")) {
 				credentials = null;
 				login();
 				return callback.apply(credentials);
