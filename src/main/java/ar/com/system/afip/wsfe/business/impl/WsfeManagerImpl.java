@@ -174,7 +174,7 @@ public class WsfeManagerImpl implements WsfeManager {
 		return checkErrors(wsaaTemplate.runAuhtenticated(credentials -> serviceSoap.feParamGetTiposPaises(FEAuthRequest.fromCredentials(credentials, cuit)))).getResultGet().getPaisTipo();
 	}
 
-	private <T extends HasErrors> T checkErrors(T response) {
+	private static <T extends HasErrors> T checkErrors(T response) {
 		Collection<? extends WsfeError> errors = getErrors(response);
 		if (errors != null) {
 			throw new WsfeException(errors);
@@ -182,7 +182,7 @@ public class WsfeManagerImpl implements WsfeManager {
 		return response;
 	}
 
-	private FECAEResponse checkFecaErrors(FECAEResponse response) {
+	private static FECAEResponse checkFecaErrors(FECAEResponse response) {
 		List<WsfeError> errors = Lists.newArrayList();
 		Collection<? extends WsfeError> errs = getErrors(response);
 		if (errs != null) {
@@ -198,7 +198,7 @@ public class WsfeManagerImpl implements WsfeManager {
 		return response;
 	}
 
-	private Collection<? extends WsfeError> getErrors(HasErrors response) {
+	private static Collection<? extends WsfeError> getErrors(HasErrors response) {
 		if (response.getErrors() != null
 				&& response.getErrors().getErr() != null
 				&& !response.getErrors().getErr().isEmpty()) {
@@ -208,7 +208,7 @@ public class WsfeManagerImpl implements WsfeManager {
 		}
 	}
 
-	private Collection<? extends WsfeError> getObservations(
+	private static Collection<? extends WsfeError> getObservations(
 			FECAEResponse response) {
 		List<WsfeError> errors = Lists.newArrayList();
 		for (FECAEDetResponse detResponse : response.getFeDetResp()
@@ -221,7 +221,7 @@ public class WsfeManagerImpl implements WsfeManager {
 		return errors.isEmpty() ? null : errors;
 	}
 
-	private Collection<? extends WsfeError> getObservations(
+	private static Collection<? extends WsfeError> getObservations(
 			FECAEDetResponse detResponse) {
 		return detResponse.getObservaciones() != null ? detResponse
 				.getObservaciones().getObs() : null;

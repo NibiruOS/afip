@@ -27,7 +27,7 @@ public class ServiceSoapProvider implements Provider<ServiceSoap> {
 	public ServiceSoap get() {
 		try {
 			Service service = Service.create(new URL(setupDao.readSetup()
-					.getWsfeWsdl()), new QName(ServiceSoap.SERVICE_NAMESPACE,
+					.geBillingWsdl()), new QName(ServiceSoap.SERVICE_NAMESPACE,
 					ServiceSoap.SERVICE_NAME));
 			return service.getPort(new QName(ServiceSoap.SERVICE_NAMESPACE,
 					ServiceSoap.PORT_NAME), ServiceSoap.class);

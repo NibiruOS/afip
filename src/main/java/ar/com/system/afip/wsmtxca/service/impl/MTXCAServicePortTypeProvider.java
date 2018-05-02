@@ -26,7 +26,7 @@ public class MTXCAServicePortTypeProvider implements Provider<MTXCAServicePortTy
 	@Override
 	public MTXCAServicePortType get() {
 		try {
-			Service service = Service.create(new URL(setupDao.readSetup().getWsfeWsdl()),
+			Service service = Service.create(new URL(setupDao.readSetup().geBillingWsdl()),
 					new QName(MTXCAServicePortType.SERVICE_NAMESPACE, MTXCAServicePortType.SERVICE_NAME));
 			return service.getPort(new QName(MTXCAServicePortType.SERVICE_NAMESPACE, MTXCAServicePortType.PORT_NAME),
 					MTXCAServicePortType.class);

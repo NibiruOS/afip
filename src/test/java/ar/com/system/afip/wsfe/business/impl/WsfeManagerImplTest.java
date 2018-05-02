@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import ar.com.system.afip.wsaa.business.api.Service;
 import ar.com.system.afip.wsaa.business.impl.BouncyCastleWsaaManagerTest;
 import ar.com.system.afip.wsaa.business.impl.WsaaTemplateImpl;
 import ar.com.system.afip.wsaa.data.api.CompanyInfo;
@@ -43,7 +44,7 @@ public class WsfeManagerImplTest {
 	private WsfeManager wsfeManager = new WsfeManagerImpl(
 			new WsaaTemplateImpl.FactoryImpl(
 					BouncyCastleWsaaManagerTest.buildWsaaManager()),
-			new ServiceSoapProvider(new HomoSetupDao()).get(),
+			new ServiceSoapProvider(new HomoSetupDao(Service.WSFE)).get(),
 			buildDao());
 
 	@Test

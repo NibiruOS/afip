@@ -37,8 +37,8 @@ public class BouncyCastleWsaaManagerTest {
 				PRIVATE_KEY, CERTIFICATE, "", new Date(), TaxCategory.MONOTRIBUTO, ADDRESS, LOCATION,
 				CN));
 		return new BouncyCastleWsaaManager(dao,
-				new HomoSetupDao(),
-				new LoginCMSProvider(new HomoSetupDao()).get(),
+				new HomoSetupDao(Service.WSFE),
+				new LoginCMSProvider(new HomoSetupDao(Service.WSFE)).get(),
 				new XStreamProvider().get());
 	}
 

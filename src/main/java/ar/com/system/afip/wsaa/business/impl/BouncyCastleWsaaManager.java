@@ -174,7 +174,7 @@ public class BouncyCastleWsaaManager implements WsaaManager {
 		}
 	}
 
-	private String toPem(Object data) throws IOException {
+	private static String toPem(Object data) throws IOException {
 		try (StringWriter out = new StringWriter();
 				JcaPEMWriter pem = new JcaPEMWriter(out)) {
 			pem.writeObject(data);
@@ -190,9 +190,8 @@ public class BouncyCastleWsaaManager implements WsaaManager {
 		}
 	}
 
-	private KeyPair buildKeys() {
+	private static KeyPair buildKeys() {
 		try {
-
 			KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
 			keyGen.initialize(2048);
 			return keyGen.genKeyPair();

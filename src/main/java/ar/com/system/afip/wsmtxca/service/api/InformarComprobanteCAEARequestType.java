@@ -1,6 +1,8 @@
 
 package ar.com.system.afip.wsmtxca.service.api;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -40,8 +42,8 @@ public class InformarComprobanteCAEARequestType {
     protected ComprobanteType comprobanteCAEARequest;
 
     public InformarComprobanteCAEARequestType(AuthRequestType authRequest, ComprobanteType comprobanteCAEARequest) {
-		this.authRequest = authRequest;
-		this.comprobanteCAEARequest = comprobanteCAEARequest;
+    	this.authRequest = checkNotNull(authRequest);
+		this.comprobanteCAEARequest = checkNotNull(comprobanteCAEARequest);
 	}
 
 	/**

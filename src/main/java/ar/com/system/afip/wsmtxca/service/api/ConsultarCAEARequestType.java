@@ -1,6 +1,8 @@
 
 package ar.com.system.afip.wsmtxca.service.api;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -38,8 +40,13 @@ public class ConsultarCAEARequestType {
     protected AuthRequestType authRequest;
     @XmlElement(name = "CAEA")
     protected long caea;
+    
+    public ConsultarCAEARequestType(AuthRequestType authRequest, long caea) {
+		this.authRequest = checkNotNull(authRequest);
+		this.caea = caea;
+	}
 
-    /**
+	/**
      * Obtiene el valor de la propiedad authRequest.
      * 
      * @return

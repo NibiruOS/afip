@@ -1,15 +1,21 @@
 package ar.com.system.afip.wsaa.data.impl;
 
+import ar.com.system.afip.wsaa.business.api.Service;
 import ar.com.system.afip.wsaa.data.api.Setup;
-import ar.com.system.afip.wsaa.data.api.SetupDao;
 
-public class HomoSetupDao implements SetupDao {
+public class HomoSetupDao extends AbstractSetupDao {
+	
+	
+	public HomoSetupDao(Service billingService) {
+		super(billingService);
+	}
+
 	@Override
 	public Setup readSetup() {
 		return new Setup(
 				"https://wsaahomo.afip.gov.ar/ws/services/LoginCms?wsdl",
 				"https://wsaahomo.afip.gov.ar/ws/services/LoginCms",
-				"https://wswhomo.afip.gov.ar/wsfev1/service.asmx?WSDL",
+				billingService.getHomoWsdl(),
 				"wsaahomo");
 	}
 }

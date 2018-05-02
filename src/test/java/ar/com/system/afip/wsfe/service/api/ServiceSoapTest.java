@@ -21,7 +21,7 @@ public class ServiceSoapTest {
 
 	@Before
 	public void setUp() throws Exception {
-		setupDao = new HomoSetupDao();
+		setupDao = new HomoSetupDao(Service.WSFE);
 		serviceSoap = new ServiceSoapProvider(setupDao).get();
 	}
 

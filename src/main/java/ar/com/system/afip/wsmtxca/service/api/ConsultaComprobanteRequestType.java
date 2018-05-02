@@ -41,7 +41,14 @@ public class ConsultaComprobanteRequestType {
     @XmlSchemaType(name = "long")
     protected int numeroComprobante;
 
-    /**
+    
+    public ConsultaComprobanteRequestType(short codigoTipoComprobante, short numeroPuntoVenta, int numeroComprobante) {
+		this.codigoTipoComprobante = codigoTipoComprobante;
+		this.numeroPuntoVenta = numeroPuntoVenta;
+		this.numeroComprobante = numeroComprobante;
+	}
+
+	/**
      * Obtiene el valor de la propiedad codigoTipoComprobante.
      * 
      */

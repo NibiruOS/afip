@@ -46,7 +46,16 @@ public class ComprobanteCAEAResponseType {
     @XmlSchemaType(name = "long")
     protected int numeroComprobante;
 
-    /**
+    
+    public ComprobanteCAEAResponseType(long caea, short codigoTipoComprobante, short numeroPuntoVenta,
+			int numeroComprobante) {
+		this.caea = caea;
+		this.codigoTipoComprobante = codigoTipoComprobante;
+		this.numeroPuntoVenta = numeroPuntoVenta;
+		this.numeroComprobante = numeroComprobante;
+	}
+
+	/**
      * Obtiene el valor de la propiedad caea.
      * 
      */

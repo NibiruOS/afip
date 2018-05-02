@@ -26,7 +26,7 @@ public class WsaaTemplateImplTest {
 		WsaaManager wsaaManager = BouncyCastleWsaaManagerTest
 				.buildWsaaManager();
 		wsaaTemplate = new WsaaTemplateImpl.FactoryImpl(wsaaManager).create(Service.WSFE);
-		serviceSoap = new ServiceSoapProvider(new HomoSetupDao()).get();
+		serviceSoap = new ServiceSoapProvider(new HomoSetupDao(Service.WSFE)).get();
 	}
 
 	@Test

@@ -1,6 +1,8 @@
 
 package ar.com.system.afip.wsmtxca.service.api;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -41,8 +43,14 @@ public class InformarCAEANoUtilizadoPtoVtaRequestType {
     @XmlElement(name = "CAEA")
     protected long caea;
     protected short numeroPuntoVenta;
+    
+    public InformarCAEANoUtilizadoPtoVtaRequestType(AuthRequestType authRequest, long caea, short numeroPuntoVenta) {
+		this.authRequest = checkNotNull(authRequest);
+		this.caea = caea;
+		this.numeroPuntoVenta = numeroPuntoVenta;
+	}
 
-    /**
+	/**
      * Obtiene el valor de la propiedad authRequest.
      * 
      * @return

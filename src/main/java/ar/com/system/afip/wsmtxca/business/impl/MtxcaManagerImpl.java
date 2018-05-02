@@ -2,6 +2,10 @@ package ar.com.system.afip.wsmtxca.business.impl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import ar.com.system.afip.wsaa.business.api.Service;
@@ -11,7 +15,12 @@ import ar.com.system.afip.wsmtxca.business.api.MtxcaManager;
 import ar.com.system.afip.wsmtxca.service.api.AuthRequestType;
 import ar.com.system.afip.wsmtxca.service.api.AutorizarComprobanteRequestType;
 import ar.com.system.afip.wsmtxca.service.api.AutorizarComprobanteResponseType;
+import ar.com.system.afip.wsmtxca.service.api.CAEAResponseType;
+import ar.com.system.afip.wsmtxca.service.api.CodigoDescripcionStringType;
+import ar.com.system.afip.wsmtxca.service.api.CodigoDescripcionType;
+import ar.com.system.afip.wsmtxca.service.api.ComprobanteCAEResponseType;
 import ar.com.system.afip.wsmtxca.service.api.ComprobanteType;
+import ar.com.system.afip.wsmtxca.service.api.ConsultaComprobanteRequestType;
 import ar.com.system.afip.wsmtxca.service.api.ConsultaUltimoComprobanteAutorizadoRequestType;
 import ar.com.system.afip.wsmtxca.service.api.ConsultarAlicuotasIVARequestType;
 import ar.com.system.afip.wsmtxca.service.api.ConsultarAlicuotasIVAResponseType;
@@ -52,6 +61,8 @@ import ar.com.system.afip.wsmtxca.service.api.InformarCAEANoUtilizadoResponseTyp
 import ar.com.system.afip.wsmtxca.service.api.InformarComprobanteCAEARequestType;
 import ar.com.system.afip.wsmtxca.service.api.InformarComprobanteCAEAResponseType;
 import ar.com.system.afip.wsmtxca.service.api.MTXCAServicePortType;
+import ar.com.system.afip.wsmtxca.service.api.PuntoVentaType;
+import ar.com.system.afip.wsmtxca.service.api.ResultadoSimpleType;
 import ar.com.system.afip.wsmtxca.service.api.SolicitarCAEARequestType;
 import ar.com.system.afip.wsmtxca.service.api.SolicitarCAEAResponseType;
 import ar.com.system.afip.wsmtxca.service.api.SolicitudCAEAType;
@@ -63,7 +74,7 @@ public class MtxcaManagerImpl implements MtxcaManager {
 
 	@Inject
 	public MtxcaManagerImpl(WsaaTemplate.Factory wsaaTemplateFacory, MTXCAServicePortType service, WsaaDao wsaaDao) {
-		this.wsaaTemplate = checkNotNull(wsaaTemplateFacory).create(Service.WSFE);
+		this.wsaaTemplate = checkNotNull(wsaaTemplateFacory).create(Service.WSMTXCA);
 		this.service = checkNotNull(service);
 		this.cuit = checkNotNull(wsaaDao).loadActiveCompanyInfo().getCuit();
 	}
@@ -74,36 +85,36 @@ public class MtxcaManagerImpl implements MtxcaManager {
 	}
 
 	@Override
-	public AutorizarComprobanteResponseType autorizarComprobante(ComprobanteType comprobanteCAERequest) {
+	public ComprobanteCAEResponseType autorizarComprobante(ComprobanteType comprobanteCAERequest) {
 		return wsaaTemplate.runAuhtenticated(
 				credentials -> exception(() -> service.autorizarComprobante(
 						new AutorizarComprobanteRequestType(
 								AuthRequestType.fromCredentials(credentials, cuit), comprobanteCAERequest)
 						))
-				);
+				).getComprobanteResponse();
 	}
 
 	@Override
-	public SolicitarCAEAResponseType solicitarCAEA(SolicitudCAEAType parameters) {
+	public CAEAResponseType solicitarCAEA(int periodo, short orden) {
 		return wsaaTemplate.runAuhtenticated(
 				credentials -> exception(
 						() -> service.solicitarCAEA(
 								new SolicitarCAEARequestType(
-										AuthRequestType.fromCredentials(credentials, cuit), parameters))
+										AuthRequestType.fromCredentials(credentials, cuit), new SolicitudCAEAType(periodo, orden)))
 						)
-				);
+				).getCAEAResponse();
 	}
 
 	@Override
-	public ConsultarUltimoComprobanteAutorizadoResponseType consultarUltimoComprobanteAutorizado(
-			ConsultaUltimoComprobanteAutorizadoRequestType parameters) {
+	public int consultarUltimoComprobanteAutorizado(short ptoVta, short cbteTipo) {
 		return wsaaTemplate.runAuhtenticated(
 				credentials -> exception(
 						() -> service.consultarUltimoComprobanteAutorizado(
 								new ConsultarUltimoComprobanteAutorizadoRequestType(
-										AuthRequestType.fromCredentials(credentials, cuit), parameters))
+										AuthRequestType.fromCredentials(credentials, cuit), 
+										new ConsultaUltimoComprobanteAutorizadoRequestType(cbteTipo, ptoVta)))
 						)
-				);
+				).getNumeroComprobante();
 	}
 	
 	@Override
@@ -117,113 +128,192 @@ public class MtxcaManagerImpl implements MtxcaManager {
 				);
 	}
 
-//	@Override
-//	public ConsultarComprobanteResponseType consultarComprobante(ConsultarComprobanteRequestType parameters) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	@Override
-//	public ConsultarTiposComprobanteResponseType consultarTiposComprobante(
-//			ConsultarTiposComprobanteRequestType parameters) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	@Override
-//	public ConsultarTiposDocumentoResponseType consultarTiposDocumento(ConsultarTiposDocumentoRequestType parameters) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	@Override
-//	public ConsultarAlicuotasIVAResponseType consultarAlicuotasIVA(ConsultarAlicuotasIVARequestType parameters) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	@Override
-//	public ConsultarCondicionesIVAResponseType consultarCondicionesIVA(ConsultarCondicionesIVARequestType parameters) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	@Override
-//	public ConsultarMonedasResponseType consultarMonedas(ConsultarMonedasRequestType parameters) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	@Override
-//	public ConsultarCotizacionMonedaResponseType consultarCotizacionMoneda(
-//			ConsultarCotizacionMonedaRequestType parameters) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	@Override
-//	public ConsultarUnidadesMedidaResponseType consultarUnidadesMedida(ConsultarUnidadesMedidaRequestType parameters) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	@Override
-//	public ConsultarPuntosVentaResponseType consultarPuntosVenta(ConsultarPuntosVentaRequestType parameters) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	@Override
-//	public ConsultarPuntosVentaResponseType consultarPuntosVentaCAE(ConsultarPuntosVentaCAERequestType parameters) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	@Override
-//	public ConsultarPuntosVentaResponseType consultarPuntosVentaCAEA(ConsultarPuntosVentaCAEARequestType parameters) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	@Override
-//	public InformarCAEANoUtilizadoResponseType informarCAEANoUtilizado(InformarCAEANoUtilizadoRequestType parameters) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	@Override
-//	public ConsultarTiposTributoResponseType consultarTiposTributo(ConsultarTiposTributoRequestType parameters) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	@Override
-//	public InformarCAEANoUtilizadoPtoVtaResponseType informarCAEANoUtilizadoPtoVta(
-//			InformarCAEANoUtilizadoPtoVtaRequestType parameters) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	@Override
-//	public ConsultarCAEAResponseType consultarCAEA(ConsultarCAEARequestType parameters) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	@Override
-//	public ConsultarPtosVtaCAEANoInformadosResponseType consultarPtosVtaCAEANoInformados(
-//			ConsultarPtosVtaCAEANoInformadosRequestType parameters) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	@Override
-//	public ConsultarCAEAEntreFechasResponseType consultarCAEAEntreFechas(
-//			ConsultarCAEAEntreFechasRequestType parameters) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+	@Override
+	public ConsultarComprobanteResponseType consultarComprobante(short codigoTipoComprobante, short numeroPuntoVenta, int numeroComprobante) {
+		return wsaaTemplate.runAuhtenticated(
+				credentials -> exception(
+						() -> service.consultarComprobante(
+								new ConsultarComprobanteRequestType(
+										AuthRequestType.fromCredentials(credentials, cuit), new ConsultaComprobanteRequestType(codigoTipoComprobante, numeroPuntoVenta, numeroComprobante)))
+						)
+				);
+	}
 
+	@Override
+	public List<CodigoDescripcionType> consultarTiposComprobante() {
+		return wsaaTemplate.runAuhtenticated(
+				credentials -> exception(
+						() -> service.consultarTiposComprobante(
+								new ConsultarTiposComprobanteRequestType(
+										AuthRequestType.fromCredentials(credentials, cuit)))
+						)
+				).getArrayTiposComprobante().getCodigoDescripcion();
+	}
+
+	@Override
+	public List<CodigoDescripcionType> consultarTiposDocumento() {
+		return wsaaTemplate.runAuhtenticated(
+				credentials -> exception(
+						() -> service.consultarTiposDocumento(
+								new ConsultarTiposDocumentoRequestType(
+										AuthRequestType.fromCredentials(credentials, cuit)))
+						)
+				).getArrayTiposDocumento().getCodigoDescripcion();
+	}
+
+	@Override
+	public List<CodigoDescripcionType> consultarAlicuotasIVA() {
+		return wsaaTemplate.runAuhtenticated(
+				credentials -> exception(
+						() -> service.consultarAlicuotasIVA(
+								new ConsultarAlicuotasIVARequestType(
+										AuthRequestType.fromCredentials(credentials, cuit)))
+						)
+				).getArrayAlicuotasIVA().getCodigoDescripcion();
+	}
+
+	@Override
+	public List<CodigoDescripcionType> consultarCondicionesIVA() {
+		return wsaaTemplate.runAuhtenticated(
+				credentials -> exception(
+						() -> service.consultarCondicionesIVA(
+								new ConsultarCondicionesIVARequestType(
+										AuthRequestType.fromCredentials(credentials, cuit)))
+						)
+				).getArrayCondicionesIVA().getCodigoDescripcion();
+	}
+
+	@Override
+	public List<CodigoDescripcionStringType> consultarMonedas() {
+		return wsaaTemplate.runAuhtenticated(
+				credentials -> exception(
+						() -> service.consultarMonedas(
+								new ConsultarMonedasRequestType(
+										AuthRequestType.fromCredentials(credentials, cuit)))
+						)
+				).getArrayMonedas().getCodigoDescripcion();
+	}
+
+	@Override
+	public BigDecimal consultarCotizacionMoneda(String codigoMoneda) {
+		return wsaaTemplate.runAuhtenticated(
+				credentials -> exception(
+						() -> service.consultarCotizacionMoneda(
+								new ConsultarCotizacionMonedaRequestType(
+										AuthRequestType.fromCredentials(credentials, cuit), codigoMoneda))
+						)
+				).getCotizacionMoneda();
+	}
+
+	@Override
+	public List<CodigoDescripcionType> consultarUnidadesMedida() {
+		return wsaaTemplate.runAuhtenticated(
+				credentials -> exception(
+						() -> service.consultarUnidadesMedida(
+								new ConsultarUnidadesMedidaRequestType(
+										AuthRequestType.fromCredentials(credentials, cuit)))
+						)
+				).getArrayUnidadesMedida().getCodigoDescripcion();
+	}
+
+	@Override
+	public List<PuntoVentaType> consultarPuntosVenta() {
+		return wsaaTemplate.runAuhtenticated(
+				credentials -> exception(
+						() -> service.consultarPuntosVenta(
+								new ConsultarPuntosVentaRequestType(
+										AuthRequestType.fromCredentials(credentials, cuit)))
+						)
+				).getArrayPuntosVenta().getPuntoVenta();
+	}
+
+	@Override
+	public List<PuntoVentaType> consultarPuntosVentaCAE() {
+		return wsaaTemplate.runAuhtenticated(
+				credentials -> exception(
+						() -> service.consultarPuntosVentaCAE(
+								new ConsultarPuntosVentaCAERequestType(
+										AuthRequestType.fromCredentials(credentials, cuit)))
+						)
+				).getArrayPuntosVenta().getPuntoVenta();
+	}
+
+	@Override
+	public List<PuntoVentaType> consultarPuntosVentaCAEA() {
+		return wsaaTemplate.runAuhtenticated(
+				credentials -> exception(
+						() -> service.consultarPuntosVentaCAEA(
+								new ConsultarPuntosVentaCAEARequestType(
+										AuthRequestType.fromCredentials(credentials, cuit)))
+						)
+				).getArrayPuntosVenta().getPuntoVenta();
+	}
+
+	@Override
+	public ResultadoSimpleType informarCAEANoUtilizado(long caea) {
+		return wsaaTemplate.runAuhtenticated(
+				credentials -> exception(
+						() -> service.informarCAEANoUtilizado(
+								new InformarCAEANoUtilizadoRequestType(
+										AuthRequestType.fromCredentials(credentials, cuit), caea))
+						)
+				).getResultado();
+	}
+
+	@Override
+	public List<CodigoDescripcionType> consultarTiposTributo() {
+		return wsaaTemplate.runAuhtenticated(
+				credentials -> exception(
+						() -> service.consultarTiposTributo(
+								new ConsultarTiposTributoRequestType(
+										AuthRequestType.fromCredentials(credentials, cuit)))
+						)
+				).getArrayTiposTributo().getCodigoDescripcion();
+	}
+
+	@Override
+	public ResultadoSimpleType informarCAEANoUtilizadoPtoVta(long caea, short numeroPuntoVenta) {
+		return wsaaTemplate.runAuhtenticated(
+				credentials -> exception(
+						() -> service.informarCAEANoUtilizadoPtoVta(
+								new InformarCAEANoUtilizadoPtoVtaRequestType(
+										AuthRequestType.fromCredentials(credentials, cuit), caea, numeroPuntoVenta))
+						)
+				).getResultado();
+	}
+
+	@Override
+	public CAEAResponseType consultarCAEA(long caea) {
+		return wsaaTemplate.runAuhtenticated(
+				credentials -> exception(
+						() -> service.consultarCAEA(
+								new ConsultarCAEARequestType(
+										AuthRequestType.fromCredentials(credentials, cuit), caea))
+						)
+				).getCAEAResponse();
+	}
+
+	@Override
+	public List<PuntoVentaType> consultarPtosVtaCAEANoInformados(long caea) {
+		return wsaaTemplate.runAuhtenticated(
+				credentials -> exception(
+						() -> service.consultarPtosVtaCAEANoInformados(
+								new ConsultarPtosVtaCAEANoInformadosRequestType(
+										AuthRequestType.fromCredentials(credentials, cuit), caea))
+						)
+				).getArrayPuntosVenta().getPuntoVenta();
+	}
+
+	@Override
+	public List<CAEAResponseType> consultarCAEAEntreFechas(Date fechaDesde, Date fechaHasta) {
+		return wsaaTemplate.runAuhtenticated(
+				credentials -> exception(
+						() -> service.consultarCAEAEntreFechas(
+								new ConsultarCAEAEntreFechasRequestType(
+										AuthRequestType.fromCredentials(credentials, cuit), fechaDesde, fechaHasta))
+						)
+				).getArrayCAEAResponse().getCAEAResponse();
+	}
 
 	private static <T> T exception(ExceptionCallback<T> callback) {
 		try {

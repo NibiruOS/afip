@@ -35,8 +35,13 @@ public class ConsultaUltimoComprobanteAutorizadoRequestType {
 
     protected short codigoTipoComprobante;
     protected short numeroPuntoVenta;
+    
+    public ConsultaUltimoComprobanteAutorizadoRequestType(short codigoTipoComprobante, short numeroPuntoVenta) {
+		this.codigoTipoComprobante = codigoTipoComprobante;
+		this.numeroPuntoVenta = numeroPuntoVenta;
+	}
 
-    /**
+	/**
      * Obtiene el valor de la propiedad codigoTipoComprobante.
      * 
      */

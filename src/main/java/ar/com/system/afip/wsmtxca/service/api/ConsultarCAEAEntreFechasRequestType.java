@@ -1,6 +1,10 @@
 
 package ar.com.system.afip.wsmtxca.service.api;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import java.util.Date;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -42,12 +46,18 @@ public class ConsultarCAEAEntreFechasRequestType {
     protected AuthRequestType authRequest;
     @XmlElement(required = true)
     @XmlSchemaType(name = "date")
-    protected XMLGregorianCalendar fechaDesde;
+    protected Date fechaDesde;
     @XmlElement(required = true)
     @XmlSchemaType(name = "date")
-    protected XMLGregorianCalendar fechaHasta;
+    protected Date fechaHasta;
+    
+    public ConsultarCAEAEntreFechasRequestType(AuthRequestType authRequest, Date fechaDesde, Date fechaHasta) {
+		this.authRequest = checkNotNull(authRequest);
+		this.fechaDesde = checkNotNull(fechaDesde);
+		this.fechaHasta = checkNotNull(fechaHasta);
+	}
 
-    /**
+	/**
      * Obtiene el valor de la propiedad authRequest.
      * 
      * @return
@@ -79,7 +89,7 @@ public class ConsultarCAEAEntreFechasRequestType {
      *     {@link XMLGregorianCalendar }
      *     
      */
-    public XMLGregorianCalendar getFechaDesde() {
+    public Date getFechaDesde() {
         return fechaDesde;
     }
 
@@ -91,7 +101,7 @@ public class ConsultarCAEAEntreFechasRequestType {
      *     {@link XMLGregorianCalendar }
      *     
      */
-    public void setFechaDesde(XMLGregorianCalendar value) {
+    public void setFechaDesde(Date value) {
         this.fechaDesde = value;
     }
 
@@ -103,7 +113,7 @@ public class ConsultarCAEAEntreFechasRequestType {
      *     {@link XMLGregorianCalendar }
      *     
      */
-    public XMLGregorianCalendar getFechaHasta() {
+    public Date getFechaHasta() {
         return fechaHasta;
     }
 
@@ -115,7 +125,7 @@ public class ConsultarCAEAEntreFechasRequestType {
      *     {@link XMLGregorianCalendar }
      *     
      */
-    public void setFechaHasta(XMLGregorianCalendar value) {
+    public void setFechaHasta(Date value) {
         this.fechaHasta = value;
     }
 

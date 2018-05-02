@@ -1,6 +1,8 @@
 
 package ar.com.system.afip.wsmtxca.service.api;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -34,8 +36,12 @@ public class ConsultarPuntosVentaRequestType {
 
     @XmlElement(required = true)
     protected AuthRequestType authRequest;
+    
+    public ConsultarPuntosVentaRequestType(AuthRequestType authRequest) {
+		this.authRequest = checkNotNull(authRequest);
+	}
 
-    /**
+	/**
      * Obtiene el valor de la propiedad authRequest.
      * 
      * @return

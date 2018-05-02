@@ -1,6 +1,8 @@
 
 package ar.com.system.afip.wsmtxca.service.api;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -41,8 +43,8 @@ public class ConsultarUltimoComprobanteAutorizadoRequestType {
     
 	public ConsultarUltimoComprobanteAutorizadoRequestType(AuthRequestType authRequest,
 			ConsultaUltimoComprobanteAutorizadoRequestType consultaUltimoComprobanteAutorizadoRequest) {
-		this.authRequest = authRequest;
-		this.consultaUltimoComprobanteAutorizadoRequest = consultaUltimoComprobanteAutorizadoRequest;
+		this.authRequest = checkNotNull(authRequest);
+		this.consultaUltimoComprobanteAutorizadoRequest = checkNotNull(consultaUltimoComprobanteAutorizadoRequest);
 	}
 
 	/**

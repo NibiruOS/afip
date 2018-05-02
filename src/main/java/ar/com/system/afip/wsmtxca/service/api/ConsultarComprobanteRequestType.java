@@ -6,6 +6,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import static com.google.common.base.Preconditions.*;
+
 
 /**
  * <p>Clase Java para ConsultarComprobanteRequestType complex type.
@@ -39,7 +41,12 @@ public class ConsultarComprobanteRequestType {
     @XmlElement(required = true)
     protected ConsultaComprobanteRequestType consultaComprobanteRequest;
 
-    /**
+    public ConsultarComprobanteRequestType(AuthRequestType authRequest, ConsultaComprobanteRequestType consultaComprobanteRequest) {
+		this.authRequest = checkNotNull(authRequest);
+		this.consultaComprobanteRequest = checkNotNull(consultaComprobanteRequest);
+	}
+
+	/**
      * Obtiene el valor de la propiedad authRequest.
      * 
      * @return
