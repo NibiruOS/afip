@@ -53,9 +53,13 @@ public class CompanyInfo {
         this.alias = checkNotNull(alias);
     }
 
-    public String buildSource() {
-        return String.format("C=ar, O=%s, OU=%s, SERIALNUMBER=CUIT %s, CN=srv1", name, unit, cuit);
+    public String certificateSource() {
+        return String.format("C=ar, O=%s, OU=%s, SERIALNUMBER=CUIT %s, CN=%s", name, unit, cuit, alias);
     }
+
+	public String loginSource() {
+		return String.format("SERIALNUMBER=CUIT %s, CN=%s", cuit, alias);
+	}
 
     public Serializable getId() {
         return id;

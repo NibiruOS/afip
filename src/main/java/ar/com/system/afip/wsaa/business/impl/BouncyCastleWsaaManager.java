@@ -96,7 +96,7 @@ public class BouncyCastleWsaaManager implements WsaaManager {
 			PublicKey publicKey = converter.getPublicKey(pemPublicKey
 					.getPublicKeyInfo());
 
-			X500Principal subject = new X500Principal(companyInfo.buildSource());
+			X500Principal subject = new X500Principal(companyInfo.certificateSource());
 			ContentSigner signGen = new JcaContentSignerBuilder(SIGNING_ALGORITHM)
 					.build(privateKey);
 
@@ -160,7 +160,7 @@ public class BouncyCastleWsaaManager implements WsaaManager {
 					.getPrivateKeyInfo());
 
 			String cms = LoginTicketRequest
-					.create(companyInfo.buildSource(), service, setupDao.readSetup().getEnvironment())
+					.create(companyInfo.loginSource(), service, setupDao.readSetup().getEnvironment())
 					.toXml(xstream).toCms(certificate, privKey).toString();
 
 			String loginTicketResponseXml = loginCms.loginCms(cms);
