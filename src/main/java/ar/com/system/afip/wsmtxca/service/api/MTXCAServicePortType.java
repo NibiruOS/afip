@@ -19,8 +19,8 @@ public interface MTXCAServicePortType {
 	String SERVICE_NAME = "MTXCAService";
 	//String PORT_NAME = "MTXCAServicePortType";
 	String PORT_NAME = "MTXCAServiceHttpSoap11Endpoint";
-	//String SERVICE_NAMESPACE = "http://impl.service.wsmtxca.afip.gov.ar/service/";
-	String SERVICE_NAMESPACE = "http://impl.service.wsmtxca.afip.gov.ar/";
+	String SERVICE_NAMESPACE = "http://impl.service.wsmtxca.afip.gov.ar/service/";
+	//String SERVICE_NAMESPACE = "http://impl.service.wsmtxca.afip.gov.ar/";
 
 	/**
 	 * 

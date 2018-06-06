@@ -24,8 +24,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlEnum
 public enum CodigoTipoAutorizacionSimpleType {
 
-    A,
-    E;
+    A,// autorización para CAEA
+    E;// autorización para CAE
 
     public String value() {
         return name();
