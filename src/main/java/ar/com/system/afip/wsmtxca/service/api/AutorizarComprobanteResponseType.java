@@ -39,7 +39,7 @@ import javax.xml.bind.annotation.XmlType;
     "arrayErrores",
     "evento"
 })
-public class AutorizarComprobanteResponseType {
+public class AutorizarComprobanteResponseType extends AbstractHashError {
 
     @XmlElement(required = true)
     @XmlSchemaType(name = "string")

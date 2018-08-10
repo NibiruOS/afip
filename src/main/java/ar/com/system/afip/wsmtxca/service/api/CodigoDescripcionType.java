@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlType;
     "codigo",
     "descripcion"
 })
-public class CodigoDescripcionType {
+public class CodigoDescripcionType implements WsmtxcaError {
 
     protected short codigo;
     @XmlElement(required = true)
@@ -77,5 +77,15 @@ public class CodigoDescripcionType {
     public void setDescripcion(String value) {
         this.descripcion = value;
     }
+
+	@Override
+	public int getCode() {
+		return getCodigo();
+	}
+
+	@Override
+	public String getMsg() {
+		return getDescripcion();
+	}
 
 }

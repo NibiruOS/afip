@@ -40,7 +40,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "arrayErrores",
     "evento"
 })
-public class InformarCAEANoUtilizadoResponseType {
+public class InformarCAEANoUtilizadoResponseType extends AbstractHashError {
 
     @XmlElement(required = true)
     @XmlSchemaType(name = "string")

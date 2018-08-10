@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlType;
     "arrayErrores",
     "evento"
 })
-public class ConsultarCAEAResponseType {
+public class ConsultarCAEAResponseType extends AbstractHashError {
 
     @XmlElement(name = "CAEAResponse")
     protected CAEAResponseType caeaResponse;

@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlType;
     "arrayErrores",
     "evento"
 })
-public class ConsultarPtosVtaCAEANoInformadosResponseType {
+public class ConsultarPtosVtaCAEANoInformadosResponseType extends AbstractHashError {
 
     protected ArrayPuntosVentaType arrayPuntosVenta;
     protected ArrayCodigosDescripcionesType arrayErrores;

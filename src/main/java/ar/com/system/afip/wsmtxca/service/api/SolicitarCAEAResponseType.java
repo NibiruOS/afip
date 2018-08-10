@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlType;
     "arrayErrores",
     "evento"
 })
-public class SolicitarCAEAResponseType {
+public class SolicitarCAEAResponseType extends AbstractHashError {
 
     @XmlElement(name = "CAEAResponse")
     protected CAEAResponseType caeaResponse;
@@ -112,5 +112,6 @@ public class SolicitarCAEAResponseType {
     public void setEvento(CodigoDescripcionType value) {
         this.evento = value;
     }
+
 
 }

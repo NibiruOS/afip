@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlType;
     "arrayErrores",
     "evento"
 })
-public class ConsultarCotizacionMonedaResponseType {
+public class ConsultarCotizacionMonedaResponseType extends AbstractHashError {
 
     protected BigDecimal cotizacionMoneda;
     protected ArrayCodigosDescripcionesType arrayErrores;

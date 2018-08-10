@@ -2,6 +2,8 @@ package ar.com.system.afip.wsaa.business.impl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.util.Objects;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -44,7 +46,7 @@ public class WsaaTemplateImpl implements WsaaTemplate {
 			login();
 			return callback.apply(credentials);
 		} catch (RuntimeException e) {
-			if (e.getMessage().equals(
+			if (Objects.equals(e.getMessage(),
 					"El tiempo de expiraci�n es inferior a la hora actual")) {
 				credentials = null;
 				login();

@@ -35,7 +35,7 @@ import javax.xml.bind.annotation.XmlType;
     "arrayErrores",
     "evento"
 })
-public class ConsultarComprobanteResponseType {
+public class ConsultarComprobanteResponseType extends AbstractHashError {
 
     protected ComprobanteType comprobante;
     protected ArrayCodigosDescripcionesType arrayObservaciones;

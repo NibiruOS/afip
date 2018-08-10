@@ -33,7 +33,7 @@ import javax.xml.bind.annotation.XmlType;
     "arrayErrores",
     "evento"
 })
-public class ConsultarCAEAEntreFechasResponseType {
+public class ConsultarCAEAEntreFechasResponseType extends AbstractHashError {
 
     protected ArrayCAEAResponseType arrayCAEAResponse;
     protected ArrayCodigosDescripcionesType arrayErrores;

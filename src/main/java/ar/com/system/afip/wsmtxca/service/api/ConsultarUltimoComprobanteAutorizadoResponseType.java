@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlType;
     "arrayErrores",
     "evento"
 })
-public class ConsultarUltimoComprobanteAutorizadoResponseType {
+public class ConsultarUltimoComprobanteAutorizadoResponseType extends AbstractHashError {
 
     @XmlSchemaType(name = "long")
     protected Integer numeroComprobante;
