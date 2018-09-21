@@ -1,38 +1,33 @@
 package ar.com.system.afip.wsfe.service.impl;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import javax.inject.Inject;
-import javax.inject.Provider;
-import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
-
 import ar.com.system.afip.wsaa.data.api.SetupDao;
 import ar.com.system.afip.wsfe.service.api.ServiceSoap;
+import io.github.nibiruos.retrosoap.ServiceFactory;
+import io.github.nibiruos.retrosoap.SoapSpec;
 
-import com.google.common.base.Throwables;
+import javax.annotation.Nonnull;
+import javax.inject.Inject;
+import javax.inject.Provider;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class ServiceSoapProvider implements Provider<ServiceSoap> {
-	private final SetupDao setupDao;
+    private final SetupDao setupDao;
+    private final ServiceFactory serviceFactory;
 
-	@Inject
-	public ServiceSoapProvider(SetupDao setupDao) {
-		this.setupDao = checkNotNull(setupDao);
-	}
+    @Inject
+    public ServiceSoapProvider(@Nonnull SetupDao setupDao,
+                               @Nonnull ServiceFactory serviceFactory) {
+        this.setupDao = checkNotNull(setupDao);
+        this.serviceFactory = checkNotNull(serviceFactory);
+    }
 
-	@Override
-	public ServiceSoap get() {
-		try {
-			Service service = Service.create(new URL(setupDao.readSetup()
-					.getWsfeWsdl()), new QName(ServiceSoap.SERVICE_NAMESPACE,
-					ServiceSoap.SERVICE_NAME));
-			return service.getPort(new QName(ServiceSoap.SERVICE_NAMESPACE,
-					ServiceSoap.PORT_NAME), ServiceSoap.class);
-		} catch (MalformedURLException e) {
-			throw Throwables.propagate(e);
-		}
-	}
+    @Override
+    public ServiceSoap get() {
+        return serviceFactory.createService(ServiceSoap.class,
+                SoapSpec.V_1_1,
+                setupDao.readSetup().getWsfeWsdl(),
+                ServiceSoap.SERVICE_NAME,
+                ServiceSoap.PORT_NAME);
+    }
 }

@@ -1,12 +1,19 @@
 package ar.com.system.afip.wsaa.business.impl;
 
+import org.simpleframework.xml.Element;
+
 import java.util.Date;
 
 public class Header {
+	@Element
 	private String source;
+	@Element
 	private String destination;
+	@Element
 	private long uniqueId;
+	@Element
 	private Date generationTime;
+	@Element
 	private Date expirationTime;
 
 	Header() {

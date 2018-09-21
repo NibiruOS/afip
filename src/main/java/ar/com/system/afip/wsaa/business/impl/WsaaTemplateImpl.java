@@ -1,6 +1,6 @@
 package ar.com.system.afip.wsaa.business.impl;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import com.google.common.base.Function;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -10,7 +10,7 @@ import ar.com.system.afip.wsaa.business.api.WsaaManager;
 import ar.com.system.afip.wsaa.business.api.WsaaTemplate;
 import ar.com.system.afip.wsaa.service.api.Credentials;
 
-import com.google.common.base.Function;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 @Singleton
 public class WsaaTemplateImpl implements WsaaTemplate {
@@ -45,7 +45,7 @@ public class WsaaTemplateImpl implements WsaaTemplate {
 			return callback.apply(credentials);
 		} catch (RuntimeException e) {
 			if (e.getMessage().equals(
-					"El tiempo de expiraci�n es inferior a la hora actual")) {
+					"El tiempo de expiracion es inferior a la hora actual")) {
 				credentials = null;
 				login();
 				return callback.apply(credentials);
