@@ -1,0 +1,5 @@
+dependencies {
+    compile project(":ar.com.system.afip")
+    compile 'com.thoughtworks.xstream:xstream:1.4.8'
+    testCompile project(":ar.com.system.afip").sourceSets.test.output
+}
