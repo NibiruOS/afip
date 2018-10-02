@@ -1,0 +1,6 @@
+dependencies {
+    compile project(":ar.com.system.afip")
+    compile 'com.thoughtworks.xstream:xstream:1.4.8'
+    compileOnly 'javax.xml.ws:jaxws-api:2.3.1'
+    testCompile project(":ar.com.system.afip").sourceSets.test.output
+}

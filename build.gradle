@@ -1,113 +1,108 @@
-buildscript {
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+    apply plugin: 'maven'
+
+    version = '1.1.0'
+    group = 'io.github.nibiruos.afip'
+
     repositories {
+        mavenLocal()
         mavenCentral()
-    }
-    dependencies {
-        classpath 'me.tatarka:gradle-retrolambda:3.7.0'
-    }
-}
-
-plugins {
-    id "me.tatarka.retrolambda" version "3.7.0"
-}
-
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'maven'
-apply plugin: 'maven-publish'
-apply plugin: 'signing'
-
-project.ext {
-    nibiruId = 'afip'
-}
-
-sourceCompatibility = 1.8
-version = '1.0.0'
-group = 'io.github.nibiruos.afip'
-
-repositories {
-    mavenLocal()
-    mavenCentral()
-    jcenter()
-    maven {
-        url "https://oss.sonatype.org/content/repositories/snapshots/"
-    }
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
-
-tasks.withType(Javadoc) {
-    // Workaround for https://github.com/gradle/gradle/issues/5630
-    (options as CoreJavadocOptions).addStringOption("sourcepath", "")
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-            artifact sourcesJar
-            artifact javadocJar
-            pom {
-                name = 'Nibiru ' + project.name
-                description = 'Retrofit based SOAP client, compatible with Android.'
-                url = 'https://github.com/NibiruOS/' + nibiruId + '/tree/master/' + project.name
-                licenses {
-                    license {
-                        name = 'The Apache Software License, Version 2.0'
-                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id = 'lbrasseur'
-                        name = 'Lautaro Brasseur'
-                        email = 'lbrasseur@gmail.com'
-                    }
-                }
-                scm {
-                    connection = 'https://github.com/NibiruOS/' + nibiruId + '.git'
-                    developerConnection = 'https://github.com/NibiruOS/' + nibiruId + '.git'
-                    url = 'https://github.com/NibiruOS/' + nibiruId
-                }
-            }
-        }
-    }
-    repositories {
+        jcenter()
+        google()
         maven {
-            credentials {
-                username = sonatypeUser
-                password = sonatypePassword
-            }
-            url version.endsWith('SNAPSHOT') ? 'https://oss.sonatype.org/content/repositories/snapshots' : 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
+            url "https://oss.sonatype.org/content/groups/staging/"
+        }
+        maven {
+            url "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+        maven {
+            url "https://oss.sonatype.org/content/repositories/google-snapshots/"
         }
     }
+
 }
 
-signing {
-    sign publishing.publications.mavenJava
-}
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'maven'
+    apply plugin: 'maven-publish'
+    apply plugin: 'signing'
 
-javadoc.classpath = sourceSets.main.compileClasspath
+    project.ext {
+        nibiruId = 'afip'
+    }
 
-retrolambda {
-    exclude 'Test', 'TestReport', 'test', 'testCompile'
-}
+    sourceCompatibility = 1.8
 
-dependencies {
-    compile 'org.bouncycastle:bcpkix-jdk15on:1.52'
-    compile "com.google.code.findbugs:jsr305:2.0.3"
-    compile 'com.google.code.gson:gson:2.3.1'
-    compile 'com.google.guava:guava:18.0'
-    compile "com.google.inject:guice:3.0:no_aop"
-    compile 'com.thoughtworks.xstream:xstream:1.4.8'
-    compile "javax.inject:javax.inject:1"
-    testCompile 'junit:junit:4.12'
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+
+    tasks.withType(Javadoc) {
+        // Workaround for https://github.com/gradle/gradle/issues/5630
+        (options as CoreJavadocOptions).addStringOption("sourcepath", "")
+    }
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+                artifact sourcesJar
+                artifact javadocJar
+                pom {
+                    name = 'Nibiru ' + project.name
+                    description = 'AFIP services client, compatible with Android.'
+                    url = 'https://github.com/NibiruOS/' + nibiruId + '/tree/master/' + project.name
+                    licenses {
+                        license {
+                            name = 'The Apache Software License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = 'lbrasseur'
+                            name = 'Lautaro Brasseur'
+                            email = 'lbrasseur@gmail.com'
+                        }
+                    }
+                    scm {
+                        connection = 'https://github.com/NibiruOS/' + nibiruId + '.git'
+                        developerConnection = 'https://github.com/NibiruOS/' + nibiruId + '.git'
+                        url = 'https://github.com/NibiruOS/' + nibiruId
+                    }
+                }
+            }
+        }
+        repositories {
+            maven {
+                credentials {
+                    username = sonatypeUser
+                    password = sonatypePassword
+                }
+                url version.endsWith('SNAPSHOT') ? 'https://oss.sonatype.org/content/repositories/snapshots' : 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
+            }
+        }
+    }
+
+    signing {
+        sign publishing.publications.mavenJava
+    }
+
+    javadoc {
+        failOnError = false
+        classpath = sourceSets.main.compileClasspath
+    }
+
+    dependencies {
+        testCompile "junit:junit:4.12"
+    }
 }

@@ -1,0 +1,12 @@
+def roomVersion = "1.1.1"
+
+dependencies {
+    compile project(":ar.com.system.afip")
+    compile 'io.github.nibiruos.retrosoap:retrosoap:1.0.0'
+    compile 'com.google.guava:guava:26.0-android'
+    compile "com.squareup.okhttp3:logging-interceptor:3.10.0"
+    compile "android.arch.persistence.room:runtime:${roomVersion}"
+    compileOnly 'net.sf.sociaal:xmlpull-xpp3:3.0.0.20130526'
+    testCompile 'net.sf.sociaal:xmlpull-xpp3:3.0.0.20130526'
+    testCompile project(":ar.com.system.afip").sourceSets.test.output
+}
