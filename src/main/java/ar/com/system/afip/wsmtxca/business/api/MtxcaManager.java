@@ -76,8 +76,6 @@ public interface MtxcaManager {
 
 	/**
 	 * Solicitar CAEA.
-	 * @param parameters
-	 * @return
 	 */
 	CAEAResponseType solicitarCAEA(int periodo, short orden);
 
@@ -85,151 +83,120 @@ public interface MtxcaManager {
 	 * Informar un Comprobante CAEA.
 	 * Permite informar para cada CAEA otorgado, la totalidad de los comprobantes
      * emitidos y asociados a cada CAEA.
-	 * @param parameters
-	 * @return
 	 */
 	InformarComprobanteCAEAResponseType informarComprobanteCAEA(ComprobanteType parameters);
 
 	/**
-	 * Consultar el último comprobante autorizado.
-	 * Permite consultar el último número de comprobante autorizado para un determinado punto de venta y tipo de comprobante, 
-	 * tanto para comprobantes con código de autorización CAE como CAEA.
-	 * @param ptoVta
-	 * @param cbteTipo
-	 * @return
+	 * Consultar el ultimo comprobante autorizado.
+	 * Permite consultar el ultimo numero de comprobante autorizado para un determinado punto de venta y tipo de comprobante,
+	 * tanto para comprobantes con codigo de autorizacion CAE como CAEA.
 	 */
 	int consultarUltimoComprobanteAutorizado(short ptoVta, short cbteTipo);
 
 	/**
 	 * Consultar un comprobante autorizado.
-	 * Permite consultar los datos de un comprobante previamente autorizado, ya sea del tipo Código de Autorización CAE ó CAEA.
-	 * @param consultaComprobanteRequest
-	 * @return
+	 * Permite consultar los datos de un comprobante previamente autorizado, ya sea del tipo Codigo de Autorizacion CAE o CAEA.
 	 */
 	ConsultarComprobanteResponseType consultarComprobante(short codigoTipoComprobante, short numeroPuntoVenta, int numeroComprobante);
 
 	/**
 	 * Consultar Tipos de Comprobantes.
 	 * Permite consultar los tipos de comprobantes habilitados en este WS.
-	 * @return
 	 */
 	List<CodigoDescripcionType> consultarTiposComprobante();
 
 	/**
 	 * Consultar Tipos de Documentos.
 	 * Retorna el universo de tipos de documentos de identidad, aceptados en el presente WS.
-	 * @return
 	 */
 	List<CodigoDescripcionType> consultarTiposDocumento();
 
 	/**
-	 * Consultar Alícuotas de IVA. 
-	 * Proporciona las diferentes Alícuotas de IVA disponibles en este WS.
-	 * @return
+	 * Consultar Alicuotas de IVA.
+	 * Proporciona las diferentes Alicuotas de IVA disponibles en este WS.
 	 */
 	List<CodigoDescripcionType> consultarAlicuotasIVA();
 
 	/**
 	 * Consultar Condiciones de IVA.
 	 * Permite consultar las Condiciones de IVA que se pueden asociar a un item, tales como No Gravado, Exento, etc..
-	 * @return
 	 */
 	List<CodigoDescripcionType> consultarCondicionesIVA();
 
 	/**
 	 * Consultar Monedas.
-	 * Retorna el universo de Monedas disponibles en el presente WS, indicando código y descripción de cada una.
-	 * @return
+	 * Retorna el universo de Monedas disponibles en el presente WS, indicando codigo y descripcion de cada una.
 	 */
 	List<CodigoDescripcionStringType> consultarMonedas();
 
 	/**
-	 * Consultar Cotización de Moneda.
-	 * Permite consultar la última cotización disponible para un determinado código de Moneda. Pudiéndose dar las siguientes situaciones:
+	 * Consultar Cotizacion de Moneda.
+	 * Permite consultar la ultima cotizacion disponible para un determinado codigo de Moneda. Pudiendose dar las siguientes situaciones:
 	 * <ul>
-	 * <li>a) De existir la cotización devolverá el valor correspondiente.
-     * <li>b) Si no existe cotización para la moneda indicada no retornará valor alguno.
-     * <li>c) Si el código de moneda enviado es inválido devolverá un error.
+	 * <li>a) De existir la cotizacion devolvera el valor correspondiente.
+     * <li>b) Si no existe cotizacion para la moneda indicada no retornara valor alguno.
+     * <li>c) Si el codigo de moneda enviado es invalido devolvera un error.
      * </ul>
-	 * @param codigoMoneda
-	 * @return
 	 */
 	BigDecimal consultarCotizacionMoneda(String codigoMoneda);
 
 	/**
 	 * Consultar Unidades de Medida.
 	 * Permite consultar las diferentes unidades de medida posibles de uso en este WS.
-	 * @return
 	 */
 	List<CodigoDescripcionType> consultarUnidadesMedida();
 
 	/**
 	 * Consultar Puntos de Ventas.
-	 * Permite consultar los puntos de venta para ambos tipos de Código de Autorización (CAE y CAEA) gestionados por la CUIT emisora.
-	 * @return
+	 * Permite consultar los puntos de venta para ambos tipos de Codigo de Autorizacion (CAE y CAEA) gestionados por la CUIT emisora.
 	 */
 	List<PuntoVentaType> consultarPuntosVenta();
 
 	/**
 	 * Consultar Puntos de Ventas CAE.
-	 * Permite consultar los puntos de venta habilitados para generar comprobantes con tipo de Código de Autorización CAE
-	 * @return
+	 * Permite consultar los puntos de venta habilitados para generar comprobantes con tipo de Codigo de Autorizacion CAE
 	 */
 	List<PuntoVentaType> consultarPuntosVentaCAE();
 
 	/**
 	 * Consultar Puntos de Ventas CAEA.
-	 * Permite consultar los puntos de venta habilitados para generar comprobantes con tipo de Código de Autorización CAEA.
-	 * @return
+	 * Permite consultar los puntos de venta habilitados para generar comprobantes con tipo de Codigo de Autorizacion CAEA.
 	 */
 	List<PuntoVentaType> consultarPuntosVentaCAEA();
 
 	/**
 	 * Informar un CAEA no utilizado.
-	 * Permite informar un CAEA que no fue utilizado, es decir que ningún comprobante fue emitido con ese CAEA.
-	 * @param caea
-	 * @return
+	 * Permite informar un CAEA que no fue utilizado, es decir que ningun comprobante fue emitido con ese CAEA.
 	 */
 	ResultadoSimpleType informarCAEANoUtilizado(long caea);
 
 	/**
 	 * Consultar Tipos de Tributo.
-	 * Devuelve los posibles códigos de tributos que puede contener un comprobante y su descripción.
-	 * @return
+	 * Devuelve los posibles codigos de tributos que puede contener un comprobante y su descripcion.
 	 */
 	List<CodigoDescripcionType> consultarTiposTributo();
 
 	/**
 	 * Informar un CAEA no utilizado para un Punto de Venta.
-	 * Permite informar un CAEA que no fue utilizado para un Punto de Venta, es decir que ningún comprobante fue emitido con ese CAEA y ese Punto de Venta.
-	 * @param caea
-	 * @param numeroPuntoVenta
-	 * @return
+	 * Permite informar un CAEA que no fue utilizado para un Punto de Venta, es decir que ningun comprobante fue emitido con ese CAEA y ese Punto de Venta.
 	 */
 	ResultadoSimpleType informarCAEANoUtilizadoPtoVta(long caea, short numeroPuntoVenta);
 
 	/**
 	 * Consultar un CAEA previamente otorgado.
-	 * Permite consultar la información correspondiente a un CAEA previamente otorgado.
-	 * @param caea
-	 * @return
+	 * Permite consultar la informacion correspondiente a un CAEA previamente otorgado.
 	 */
 	CAEAResponseType consultarCAEA(long caea);
 
 	/**
-	 * Consultar Puntos de Venta aún no informados para un CAEA.
-	 * Permite consultar que puntos de venta aún no fueron informados para un CAEA determinado.
-	 * @param caea
-	 * @return
+	 * Consultar Puntos de Venta aun no informados para un CAEA.
+	 * Permite consultar que puntos de venta aun no fueron informados para un CAEA determinado.
 	 */
 	List<PuntoVentaType> consultarPtosVtaCAEANoInformados(long caea);
 
 	/**
 	 * Consultar CAEAs en un rango de fechas.
-	 * Permite consultar la información correspondiente a CAEAs que hayan tenido vigencia en algún momento dentro de un rango de fechas determinado.
-	 * @param fechaDesde
-	 * @param fechaHasta
-	 * @return
+	 * Permite consultar la informacion correspondiente a CAEAs que hayan tenido vigencia en algun momento dentro de un rango de fechas determinado.
 	 */
 	List<CAEAResponseType> consultarCAEAEntreFechas(Date fechaDesde, Date fechaHasta);
 
