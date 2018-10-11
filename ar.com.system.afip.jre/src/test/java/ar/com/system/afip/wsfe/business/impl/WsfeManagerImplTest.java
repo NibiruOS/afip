@@ -7,7 +7,7 @@ import org.junit.Test;
 public class WsfeManagerImplTest {
     @Before
     public void setUp() {
-        Utils.init();
+        Utils.initWsfe();
     }
 
     @Test

@@ -1,4 +1,4 @@
-package ar.com.system.afip.util;
+package ar.com.system.afip.wsaa;
 
 import ar.com.system.afip.wsaa.business.api.Service;
 import ar.com.system.afip.wsaa.business.api.WsaaManager;
@@ -8,12 +8,10 @@ import ar.com.system.afip.wsaa.business.impl.BouncyCastleWsaaManager;
 import ar.com.system.afip.wsaa.business.impl.WsaaTemplateImpl;
 import ar.com.system.afip.wsaa.data.api.*;
 import ar.com.system.afip.wsaa.data.impl.FileSystemCredentialsDao;
+import ar.com.system.afip.wsaa.data.impl.HomoSetupDao;
 import ar.com.system.afip.wsaa.data.impl.InMemoryWsaaDao;
 import ar.com.system.afip.wsaa.service.api.Credentials;
 import ar.com.system.afip.wsaa.service.api.LoginCMS;
-import ar.com.system.afip.wsfe.business.api.WsfeManager;
-import ar.com.system.afip.wsfe.business.impl.WsfeManagerImpl;
-import ar.com.system.afip.wsfe.service.api.ServiceSoap;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -21,22 +19,16 @@ import java.util.Date;
 
 import static ar.com.system.afip.util.Constants.*;
 
-public class Dependencies {
-    private static SetupDao setupDao;
+public class WsaaComponents {
     private static LoginCMS loginCms;
-    private static ServiceSoap serviceSoap;
     private static XmlConverter xmlConverter;
     private static WsaaDao wsaaDao;
     private static CredentialsDao credentialsDao;
 
-    public static void init(SetupDao setupDao,
-                            LoginCMS loginCms,
-                            ServiceSoap serviceSoap,
+    public static void init(LoginCMS loginCms,
                             XmlConverter xmlConverter) {
-        Dependencies.setupDao = setupDao;
-        Dependencies.loginCms = loginCms;
-        Dependencies.serviceSoap = serviceSoap;
-        Dependencies.xmlConverter = xmlConverter;
+        WsaaComponents.loginCms = loginCms;
+        WsaaComponents.xmlConverter = xmlConverter;
         wsaaDao = new InMemoryWsaaDao();
         wsaaDao.saveCompanyInfo(new CompanyInfo(0,
                 COMPANY,
@@ -59,34 +51,25 @@ public class Dependencies {
                 new Gson());
     }
 
+    public static SetupDao setupDao(Service service) {
+        return new HomoSetupDao(service);
+    }
+
     public static WsaaDao wsaaDao() {
         return wsaaDao;
     }
 
-    public static WsaaManager wsaaManager() {
+    public static WsaaManager wsaaManager(Service service) {
         return new BouncyCastleWsaaManager(wsaaDao(),
-                setupDao,
+                setupDao(service),
                 loginCms,
                 xmlConverter);
     }
 
     public static WsaaTemplate wsaaTemplate(Service service) {
-        return new WsaaTemplateImpl.FactoryImpl(wsaaManager(),
+        return new WsaaTemplateImpl.FactoryImpl(wsaaManager(service),
                 credentialsDao())
                 .create(service);
-    }
-
-    public static ServiceSoap serviceSoap() {
-        return serviceSoap;
-    }
-
-    public static WsfeManager wsfeManager() {
-        return new WsfeManagerImpl(
-                new WsaaTemplateImpl.FactoryImpl(
-                        wsaaManager(),
-                        credentialsDao()),
-                serviceSoap(),
-                wsaaDao());
     }
 
     public static CredentialsDao credentialsDao() {
@@ -94,11 +77,12 @@ public class Dependencies {
     }
 
     public static Credentials credentials(Service service) {
-        Credentials credentials = Dependencies.credentialsDao()
+        Credentials credentials = credentialsDao()
                 .loadCredentials(service);
         if (credentials == null) {
-            credentials = wsaaManager().login(service);
-            Dependencies.credentialsDao()
+            credentials = wsaaManager(service)
+                    .login(service);
+            WsaaComponents.credentialsDao()
                     .saveCredentials(credentials, service);
         }
         return credentials;

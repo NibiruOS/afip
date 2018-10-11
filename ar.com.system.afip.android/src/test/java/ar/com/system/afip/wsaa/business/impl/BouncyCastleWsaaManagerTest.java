@@ -7,7 +7,7 @@ import org.junit.Test;
 public class BouncyCastleWsaaManagerTest {
     @Before
     public void setUp() {
-        Utils.init();
+        Utils.initWsaa();
     }
 
     @Test

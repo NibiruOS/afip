@@ -7,7 +7,7 @@ import org.junit.Test;
 public class WsaaTemplateImplTest {
     @Before
     public void setUp() {
-        Utils.init();
+        Utils.initWsaa();
     }
 
     @Test

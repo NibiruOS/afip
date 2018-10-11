@@ -1,16 +1,15 @@
 package ar.com.system.afip.wsfe.service.api;
 
 import ar.com.system.afip.util.Constants;
-import ar.com.system.afip.util.Dependencies;
 import ar.com.system.afip.wsaa.business.api.Service;
-import ar.com.system.afip.wsaa.business.api.WsaaManager;
-import ar.com.system.afip.wsaa.service.api.Credentials;
 
+import static ar.com.system.afip.wsaa.WsaaComponents.credentials;
+import static ar.com.system.afip.wsfe.WsfeComponents.serviceSoap;
 import static org.junit.Assert.*;
 
 public class ServiceSoapTestImpl {
     public static void testDummy() {
-        ServiceSoap serviceSoap = Dependencies.serviceSoap();
+        ServiceSoap serviceSoap = serviceSoap();
 
         DummyResponse response = serviceSoap.feDummy();
         assertNotNull(response);
@@ -20,7 +19,7 @@ public class ServiceSoapTestImpl {
     }
 
     public static void testParamGetTiposIva() {
-        ServiceSoap serviceSoap = Dependencies.serviceSoap();
+        ServiceSoap serviceSoap = serviceSoap();
 
         IvaTipoResponse response = serviceSoap
                 .feParamGetTiposIva(buildFEAuthRequest());
@@ -33,7 +32,7 @@ public class ServiceSoapTestImpl {
     }
 
     private static FEAuthRequest buildFEAuthRequest() {
-        return FEAuthRequest.fromCredentials(Dependencies.credentials(Service.WSFE),
+        return FEAuthRequest.fromCredentials(credentials(Service.WSFE),
                 Constants.CUIT);
     }
 }

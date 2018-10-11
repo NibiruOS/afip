@@ -7,7 +7,7 @@ import org.junit.Test;
 public class ServiceSoapTest {
     @Before
     public void setUp() {
-        Utils.init();
+        Utils.initWsfe();
     }
 
     @Test

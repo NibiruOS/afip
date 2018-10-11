@@ -1,13 +1,13 @@
 package ar.com.system.afip.wsfe.business.impl;
 
 import ar.com.system.afip.util.Constants;
-import ar.com.system.afip.util.Dependencies;
 import ar.com.system.afip.wsfe.business.api.WsfeManager;
 import ar.com.system.afip.wsfe.service.api.*;
 
 import java.util.Date;
 import java.util.List;
 
+import static ar.com.system.afip.wsfe.WsfeComponents.wsfeManager;
 import static org.junit.Assert.*;
 
 public class WsfeManagerImplTestImpl {
@@ -18,7 +18,7 @@ public class WsfeManagerImplTestImpl {
     private static final String MON_PESOS = "PES";
 
     public static void testSolicitar() {
-        WsfeManager wsfeManager = Dependencies.wsfeManager();
+        WsfeManager wsfeManager = wsfeManager();
 
         // FECompUltimoAutorizado
         int nroComprobante = wsfeManager.feCompUltimoAutorizado(PTO_VTA,
@@ -86,55 +86,55 @@ public class WsfeManagerImplTestImpl {
     }
 
     public static void testParamGetTiposIva() {
-        WsfeManager wsfeManager = Dependencies.wsfeManager();
+        WsfeManager wsfeManager = wsfeManager();
         List<IvaTipo> ivaTipos = wsfeManager.feParamGetTiposIva();
         assertEquals(6, ivaTipos.size());
     }
 
     public static void testParamGetTiposCbte() {
-        WsfeManager wsfeManager = Dependencies.wsfeManager();
+        WsfeManager wsfeManager = wsfeManager();
         List<CbteTipo> cbteTipos = wsfeManager.feParamGetTiposCbte();
         assertEquals(27, cbteTipos.size());
     }
 
     public static void testParamGetTiposConcepto() {
-        WsfeManager wsfeManager = Dependencies.wsfeManager();
+        WsfeManager wsfeManager = wsfeManager();
         List<ConceptoTipo> conceptoTipos = wsfeManager.feParamGetTiposConcepto();
         assertEquals(3, conceptoTipos.size());
     }
 
     public static void testParamGetTiposDoc() {
-        WsfeManager wsfeManager = Dependencies.wsfeManager();
+        WsfeManager wsfeManager = wsfeManager();
         List<DocTipo> docTipos = wsfeManager.feParamGetTiposDoc();
         assertEquals(36, docTipos.size());
     }
 
     public static void testParamGetTiposMonedas() {
-        WsfeManager wsfeManager = Dependencies.wsfeManager();
+        WsfeManager wsfeManager = wsfeManager();
         List<Moneda> monedas = wsfeManager.feParamGetTiposMonedas();
         assertEquals(50, monedas.size());
     }
 
     public static void testParamGetTiposOpcional() {
-        WsfeManager wsfeManager = Dependencies.wsfeManager();
+        WsfeManager wsfeManager = wsfeManager();
         List<OpcionalTipo> opcionalTipos = wsfeManager.feParamGetTiposOpcional();
         assertEquals(19, opcionalTipos.size());
     }
 
     public static void testParamGetTiposPaises() {
-        WsfeManager wsfeManager = Dependencies.wsfeManager();
+        WsfeManager wsfeManager = wsfeManager();
         List<PaisTipo> paisTipos = wsfeManager.feParamGetTiposPaises();
         assertEquals(296, paisTipos.size());
     }
 
     public static void testParamGetTiposTributos() {
-        WsfeManager wsfeManager = Dependencies.wsfeManager();
+        WsfeManager wsfeManager = wsfeManager();
         List<TributoTipo> tributoTipos = wsfeManager.feParamGetTiposTributos();
         assertEquals(11, tributoTipos.size());
     }
 
     public static void testParamGetCotizacion() {
-        WsfeManager wsfeManager = Dependencies.wsfeManager();
+        WsfeManager wsfeManager = wsfeManager();
         try {
             wsfeManager.feParamGetCotizacion("PES");
             fail("WsfeException expected");
@@ -143,7 +143,7 @@ public class WsfeManagerImplTestImpl {
     }
 
     public static void testParamGetPtosVenta() {
-        WsfeManager wsfeManager = Dependencies.wsfeManager();
+        WsfeManager wsfeManager = wsfeManager();
         try {
             wsfeManager.feParamGetPtosVenta();
             fail("WsfeException expected");

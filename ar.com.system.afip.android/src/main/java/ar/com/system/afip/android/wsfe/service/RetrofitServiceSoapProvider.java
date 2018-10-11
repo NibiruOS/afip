@@ -28,7 +28,7 @@ public class RetrofitServiceSoapProvider
         return serviceFactory.createService(RetrofitServiceSoap.class,
                 SoapSpec.V_1_1,
                 setupDao.readSetup()
-                        .getWsfeWsdl(),
+                        .geBillingWsdl(),
                 ServiceSoap.SERVICE_NAME,
                 ServiceSoap.PORT_NAME);
     }

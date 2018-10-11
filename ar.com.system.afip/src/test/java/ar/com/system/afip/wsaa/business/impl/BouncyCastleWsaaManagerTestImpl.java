@@ -1,6 +1,5 @@
 package ar.com.system.afip.wsaa.business.impl;
 
-import ar.com.system.afip.util.Dependencies;
 import ar.com.system.afip.wsaa.business.api.Service;
 import ar.com.system.afip.wsaa.business.api.WsaaManager;
 import ar.com.system.afip.wsaa.data.api.CompanyInfo;
@@ -11,12 +10,14 @@ import ar.com.system.afip.wsaa.service.api.Credentials;
 import java.util.Date;
 
 import static ar.com.system.afip.util.Constants.*;
+import static ar.com.system.afip.wsaa.WsaaComponents.wsaaDao;
+import static ar.com.system.afip.wsaa.WsaaComponents.wsaaManager;
 import static org.junit.Assert.*;
 
 public class BouncyCastleWsaaManagerTestImpl {
     public static void testInitializeKeys() {
-        WsaaDao dao = Dependencies.wsaaDao();
-        WsaaManager wsaaManager = Dependencies.wsaaManager();
+        WsaaDao dao = wsaaDao();
+        WsaaManager wsaaManager = wsaaManager(Service.WSFE);
 
         Date now = new Date();
 
@@ -37,7 +38,7 @@ public class BouncyCastleWsaaManagerTestImpl {
     }
 
     public static void testLoginBuildCertificateRequest() {
-        WsaaManager wsaaManager = Dependencies.wsaaManager();
+        WsaaManager wsaaManager = wsaaManager(Service.WSFE);
 
         String certificateRequest = wsaaManager.buildCertificateRequest();
         assertNotNull(certificateRequest);
@@ -51,8 +52,8 @@ public class BouncyCastleWsaaManagerTestImpl {
     }
 
     public static void testUpdateCertificate() {
-        WsaaDao dao = Dependencies.wsaaDao();
-        WsaaManager wsaaManager = Dependencies.wsaaManager();
+        WsaaDao dao = wsaaDao();
+        WsaaManager wsaaManager = wsaaManager(Service.WSFE);
 
         wsaaManager.updateCertificate("A");
         CompanyInfo companyInfo = dao.loadActiveCompanyInfo();
@@ -61,7 +62,7 @@ public class BouncyCastleWsaaManagerTestImpl {
     }
 
     public static void testLogin() {
-        WsaaManager wsaaManager = Dependencies.wsaaManager();
+        WsaaManager wsaaManager = wsaaManager(Service.WSFE);
 
         Credentials credentials = wsaaManager.login(Service.WSFE);
 
