@@ -8,20 +8,28 @@ import ar.com.system.afip.wsaa.business.api.WsaaTemplate;
 import ar.com.system.afip.wsaa.data.api.WsaaDao;
 import ar.com.system.afip.wsmtxca.business.api.MtxcaManager;
 import ar.com.system.afip.wsmtxca.service.api.*;
+
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 
 import javax.annotation.Nonnull;
 import javax.inject.Inject;
+
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.regex.Pattern;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class MtxcaManagerImpl implements MtxcaManager {
-    private static final String INVALID_SIGNATURE_MESSAGE
-            = "La firma no corresponde al token enviado.";
+    private static final Set<Pattern> INVALID_TOKEN_MESSAGES
+            = ImmutableSet.of(
+            Pattern.compile("la firma no corresponde al token enviado."),
+            Pattern.compile("token vencido fecha y hora de vencimiento del token enviado: .* - fecha y hora actual del servidor: .*"));
     private final WsaaTemplate wsaaTemplate;
     private final MTXCAServicePortType service;
     private final String cuit;
@@ -281,7 +289,7 @@ public class MtxcaManagerImpl implements MtxcaManager {
         try {
             return exceptionConverter.convert(() -> callback.run());
         } catch (SoapException e) {
-            if (INVALID_SIGNATURE_MESSAGE.equalsIgnoreCase(e.getString())) {
+            if (isTokenError(e.getString())) {
                 throw new CredentialsException(e);
             } else {
                 throw new MtxcaResponseException(ImmutableList
@@ -292,6 +300,19 @@ public class MtxcaManagerImpl implements MtxcaManager {
         } catch (Exception e) {
             throw new MtxcaException(e);
         }
+    }
+
+    private boolean isTokenError(String message) {
+        String normalizedMessage = Strings.nullToEmpty(message)
+                .trim()
+                .toLowerCase();
+        for (Pattern messagePattern : INVALID_TOKEN_MESSAGES) {
+            if (messagePattern.matcher(normalizedMessage)
+                    .matches()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private interface ExceptionCallback<T> {
