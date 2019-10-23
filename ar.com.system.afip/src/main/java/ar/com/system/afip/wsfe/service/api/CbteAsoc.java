@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CbteAsoc", propOrder = {"tipo", "ptoVta", "nro"})
+@XmlType(name = "CbteAsoc", propOrder = {"tipo", "ptoVta", "nro", "cuit", "cbteFch"})
 public class CbteAsoc {
     @XmlElement(name = "Tipo")
     @Element(name = "Tipo")
@@ -41,6 +41,12 @@ public class CbteAsoc {
     @XmlElement(name = "Nro")
     @Element(name = "Nro")
     protected long nro;
+    @XmlElement(name = "Cuit")
+    @Element(name = "Cuit")
+    protected String cuit;
+    @XmlElement(name = "CbteFch")
+    @Element(name = "CbteFch")
+    protected String cbteFch;
 
     /**
      * Obtiene el valor de la propiedad tipo.
@@ -82,6 +88,22 @@ public class CbteAsoc {
      */
     public void setNro(long value) {
         this.nro = value;
+    }
+
+    public String getCuit() {
+        return cuit;
+    }
+
+    public void setCuit(String cuit) {
+        this.cuit = cuit;
+    }
+
+    public String getCbteFch() {
+        return cbteFch;
+    }
+
+    public void setCbteFch(String cbteFch) {
+        this.cbteFch = cbteFch;
     }
 
 }
