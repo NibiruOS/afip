@@ -11,9 +11,9 @@ import java.util.Date;
         "generationTime",
         "expirationTime"})
 public class Header {
-    @Element
+    @Element(required = false)
     private String source;
-    @Element
+    @Element(required = false)
     private String destination;
     @Element
     private long uniqueId;

@@ -1,36 +1,48 @@
 package ar.com.system.afip.wsaa.data.api;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class Setup {
-	private final String wsaaWsdl;
-	private final String wsaaTargetNamespace;
-	private final String billingWsdl;
-	private final String environment;
+    private final String wsaaWsdl;
+    private final String wsaaTargetNamespace;
+    private final String billingWsdl;
+    private final String environment;
 
-	public Setup(String wsaaWsdl,
-			String wsaaTargetNamespace,
-			String billingWsdl,
-			String environment) {
-		this.wsaaWsdl = checkNotNull(wsaaWsdl);
-		this.wsaaTargetNamespace = checkNotNull(wsaaTargetNamespace);
-		this.billingWsdl = checkNotNull(billingWsdl);
-		this.environment = checkNotNull(environment);
-	}
+    public Setup(@Nonnull String wsaaWsdl,
+                 @Nonnull String wsaaTargetNamespace,
+                 @Nonnull String billingWsdl,
+                 @Nullable String environment) {
+        this.wsaaWsdl = checkNotNull(wsaaWsdl);
+        this.wsaaTargetNamespace = checkNotNull(wsaaTargetNamespace);
+        this.billingWsdl = checkNotNull(billingWsdl);
+        this.environment = environment;
+    }
 
-	public String getWsaaWsdl() {
-		return wsaaWsdl;
-	}
+    @Nonnull
+    public String getWsaaWsdl() {
+        return wsaaWsdl;
+    }
 
-	public String getWsaaTargetNamespace() {
-		return wsaaTargetNamespace;
-	}
+    @Nonnull
+    public String getWsaaTargetNamespace() {
+        return wsaaTargetNamespace;
+    }
 
-	public String geBillingWsdl() {
-		return billingWsdl;
-	}
+    @Nonnull
+    public String geBillingWsdl() {
+        return billingWsdl;
+    }
 
-	public String getEnvironment() {
-		return environment;
-	}
+    @Nullable
+    public String getEnvironment() {
+        return environment;
+    }
+
+    public boolean useSourceAndDestination() {
+        return environment != null;
+    }
+
 }
