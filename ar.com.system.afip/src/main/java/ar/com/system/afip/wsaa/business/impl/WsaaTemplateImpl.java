@@ -48,7 +48,7 @@ public class WsaaTemplateImpl implements WsaaTemplate {
     }
 
     @Override
-    public <T> T runAuhtenticated(Function<Credentials, T> callback) {
+    public <T> T runAuhtenticated(@Nonnull Function<Credentials, T> callback) {
         checkNotNull(callback);
         try {
             login();

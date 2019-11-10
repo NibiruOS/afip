@@ -8,10 +8,10 @@ import ar.com.system.afip.wsaa.service.api.Credentials;
 import com.google.common.base.Function;
 
 public interface WsaaTemplate {
-	interface Factory {
-		WsaaTemplate create(@Nonnull Service service);
-	}
+    interface Factory {
+        WsaaTemplate create(@Nonnull Service service);
+    }
 
-	@Nullable
-	<T> T runAuhtenticated(Function<Credentials, T> callback);
+    @Nullable
+    <T> T runAuhtenticated(@Nonnull Function<Credentials, T> callback);
 }
