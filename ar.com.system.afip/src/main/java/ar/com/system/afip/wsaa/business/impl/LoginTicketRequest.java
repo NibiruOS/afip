@@ -18,6 +18,8 @@ import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.security.PrivateKey;
 import java.security.Security;
@@ -31,7 +33,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 @Root(name = "loginTicketRequest")
 public class LoginTicketRequest {
-    public static LoginTicketRequest create(String source, Service service, String environment) {
+    public static LoginTicketRequest create(@Nullable String source,
+                                            @Nonnull Service service,
+                                            @Nullable String environment) {
+        checkNotNull(service);
+
         Calendar generation = Calendar.getInstance();
         Calendar expiration = Calendar.getInstance();
         generation.add(Calendar.MINUTE, -10);
@@ -39,7 +45,9 @@ public class LoginTicketRequest {
 
         return new LoginTicketRequest(
                 new Header(source,
-                        String.format("cn=%s,o=afip,c=ar,serialNumber=CUIT 33693450239", environment),
+                        environment != null
+                                ? String.format("cn=%s,o=afip,c=ar,serialNumber=CUIT 33693450239", environment)
+                                : null,
                         generation.getTime().getTime() / 1000,
                         generation.getTime(),
                         expiration.getTime()),

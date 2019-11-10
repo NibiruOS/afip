@@ -2,12 +2,14 @@ package ar.com.system.afip.wsaa.business.api;
 
 import ar.com.system.afip.wsaa.service.api.Credentials;
 
+import javax.annotation.Nonnull;
+
 public interface WsaaManager {
 	void initializeKeys();
 
 	String buildCertificateRequest();
 
-	void updateCertificate(String certificate);
+	void updateCertificate(@Nonnull String certificate);
 
-	Credentials login(Service service);
+	Credentials login(@Nonnull Service service);
 }

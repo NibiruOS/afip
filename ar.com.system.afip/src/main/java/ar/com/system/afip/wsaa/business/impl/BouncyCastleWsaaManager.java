@@ -4,6 +4,7 @@ import ar.com.system.afip.wsaa.business.api.Service;
 import ar.com.system.afip.wsaa.business.api.WsaaManager;
 import ar.com.system.afip.wsaa.business.api.XmlConverter;
 import ar.com.system.afip.wsaa.data.api.CompanyInfo;
+import ar.com.system.afip.wsaa.data.api.Setup;
 import ar.com.system.afip.wsaa.data.api.SetupDao;
 import ar.com.system.afip.wsaa.data.api.WsaaDao;
 import ar.com.system.afip.wsaa.service.api.Credentials;
@@ -20,6 +21,7 @@ import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
 import org.bouncycastle.pkcs.PKCS10CertificationRequest;
 import org.bouncycastle.pkcs.jcajce.JcaPKCS10CertificationRequestBuilder;
 
+import javax.annotation.Nonnull;
 import javax.inject.Inject;
 import javax.security.auth.x500.X500Principal;
 import java.io.ByteArrayInputStream;
@@ -103,7 +105,7 @@ public class BouncyCastleWsaaManager implements WsaaManager {
     }
 
     @Override
-    public void updateCertificate(String certificate) {
+    public void updateCertificate(@Nonnull String certificate) {
         checkNotNull(certificate);
         CompanyInfo info = wsaaDao.loadActiveCompanyInfo();
         wsaaDao.saveCompanyInfo(new CompanyInfo(info.getId(),
@@ -123,7 +125,8 @@ public class BouncyCastleWsaaManager implements WsaaManager {
     }
 
     @Override
-    public Credentials login(Service service) {
+    public Credentials login(@Nonnull Service service) {
+        checkNotNull(service);
         try {
             CompanyInfo companyInfo = wsaaDao.loadActiveCompanyInfo();
             checkNotNull(companyInfo.getName(),
@@ -138,6 +141,7 @@ public class BouncyCastleWsaaManager implements WsaaManager {
                     "Debe configurar la clave publica antes de realizar el login");
             checkNotNull(companyInfo.getCertificate(),
                     "Debe configurar el certificado antes de realizar el login");
+            Setup setup = setupDao.readSetup();
 
             X509CertificateHolder certificateHolder = fromPem(companyInfo
                     .getCertificate());
@@ -153,10 +157,13 @@ public class BouncyCastleWsaaManager implements WsaaManager {
                     .getPrivateKeyInfo());
 
             String cms = LoginTicketRequest
-                    .create(companyInfo.loginSource(),
+                    .create(setup.useSourceAndDestination()
+                                    ? companyInfo.loginSource()
+                                    : null,
                             service,
-                            setupDao.readSetup()
-                                    .getEnvironment())
+                            setup.useSourceAndDestination()
+                                    ? setup.getEnvironment()
+                                    : null)
                     .toXml(xmlConverter)
                     .toCms(certificate, privKey)
                     .toString();
