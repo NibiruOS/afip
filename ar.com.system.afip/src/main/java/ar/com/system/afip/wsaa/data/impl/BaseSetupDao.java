@@ -6,8 +6,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import ar.com.system.afip.wsaa.business.api.Service;
 import ar.com.system.afip.wsaa.data.api.SetupDao;
 
-abstract class BaseSetupDao implements SetupDao {
-	Service billingService;
+public abstract class BaseSetupDao implements SetupDao {
+	public Service billingService;
 	
 	public BaseSetupDao(Service billingService) {
 		checkNotNull(billingService);
