@@ -10,6 +10,8 @@ import ar.com.system.afip.wsaa.data.api.WsaaDao;
 import ar.com.system.afip.wsaa.service.api.Credentials;
 import ar.com.system.afip.wsaa.service.api.LoginCMS;
 import com.google.common.base.Throwables;
+import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
+import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
 import org.bouncycastle.cert.X509CertificateHolder;
 import org.bouncycastle.openssl.PEMKeyPair;
 import org.bouncycastle.openssl.PEMParser;
@@ -84,12 +86,11 @@ public class BouncyCastleWsaaManager implements WsaaManager {
 
             JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
 
-            PEMKeyPair pemPrivateKey = fromPem(companyInfo.getPrivateKey());
-            PrivateKey privateKey = converter.getPrivateKey(pemPrivateKey
-                    .getPrivateKeyInfo());
-            PEMKeyPair pemPublicKey = fromPem(companyInfo.getPrivateKey());
-            PublicKey publicKey = converter.getPublicKey(pemPublicKey
-                    .getPublicKeyInfo());
+            PrivateKeyInfo privateKeyInfo = privateKeyFromPem(companyInfo.getPrivateKey());
+            PrivateKey privateKey = converter.getPrivateKey(privateKeyInfo);
+            SubjectPublicKeyInfo subjectPublicKeyInfo = publicKeyFromPem(companyInfo.getPrivateKey(),
+                    companyInfo.getPublicKey());
+            PublicKey publicKey = converter.getPublicKey(subjectPublicKeyInfo);
 
             X500Principal subject = new X500Principal(companyInfo.certificateSource());
             ContentSigner signGen = new JcaContentSignerBuilder(SIGNING_ALGORITHM)
@@ -151,10 +152,9 @@ public class BouncyCastleWsaaManager implements WsaaManager {
                     .generateCertificate(new ByteArrayInputStream(
                             certificateHolder.getEncoded()));
 
-            PEMKeyPair pemKeyPair = fromPem(companyInfo.getPrivateKey());
+            PrivateKeyInfo privateKeyInfo = privateKeyFromPem(companyInfo.getPrivateKey());
             JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
-            PrivateKey privKey = converter.getPrivateKey(pemKeyPair
-                    .getPrivateKeyInfo());
+            PrivateKey privateKey = converter.getPrivateKey(privateKeyInfo);
 
             String cms = LoginTicketRequest
                     .create(setup.useSourceAndDestination()
@@ -165,7 +165,7 @@ public class BouncyCastleWsaaManager implements WsaaManager {
                                     ? setup.getEnvironment()
                                     : null)
                     .toXml(xmlConverter)
-                    .toCms(certificate, privKey)
+                    .toCms(certificate, privateKey)
                     .toString();
 
             String loginTicketResponseXml = loginCms.loginCms(cms);
@@ -192,6 +192,42 @@ public class BouncyCastleWsaaManager implements WsaaManager {
     private static <T> T fromPem(String data) throws IOException {
         try (PEMParser parser = new PEMParser(new StringReader(data))) {
             return (T) parser.readObject();
+        }
+    }
+
+    private static PrivateKeyInfo privateKeyFromPem(String privateKeyData) throws IOException {
+        Object result = fromPem(privateKeyData);
+        if (result instanceof PrivateKeyInfo) {
+            return (PrivateKeyInfo) result;
+        } else if (result instanceof PEMKeyPair) {
+            PEMKeyPair pemKeyPair = (PEMKeyPair) result;
+            return pemKeyPair.getPrivateKeyInfo();
+        } else {
+            throw new IllegalArgumentException("Clave privada no soportada");
+        }
+    }
+
+    private static SubjectPublicKeyInfo publicKeyFromPem(String privateKeyData,
+                                                         String publicKeyData) throws IOException {
+        SubjectPublicKeyInfo result = toPublicKey(privateKeyData);
+        if (result == null) {
+            result = toPublicKey(publicKeyData);
+        }
+        if (result == null) {
+            throw new IllegalArgumentException("Clave publica no soportada");
+        }
+        return result;
+    }
+
+    private static SubjectPublicKeyInfo toPublicKey(String data) throws IOException {
+        Object privateKeyResult = fromPem(data);
+        if (privateKeyResult instanceof SubjectPublicKeyInfo) {
+            return (SubjectPublicKeyInfo) privateKeyResult;
+        } else if (privateKeyResult instanceof PEMKeyPair) {
+            PEMKeyPair pemKeyPair = (PEMKeyPair) privateKeyResult;
+            return pemKeyPair.getPublicKeyInfo();
+        } else {
+            return null;
         }
     }
 
