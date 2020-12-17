@@ -1,5 +1,6 @@
 package ar.com.system.afip.wsfe.service.api;
 
+import java.util.Date;
 import org.simpleframework.xml.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -21,6 +22,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;extension base="{http://ar.gov.afip.dif.FEV1/}FEDetRequest">
  *       &lt;sequence>
  *         &lt;element name="CAEA" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="CbteFchHsGen" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/extension>
  *   &lt;/complexContent>
@@ -28,11 +30,14 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "FECAEADetRequest", propOrder = {"caea"})
+@XmlType(name = "FECAEADetRequest", propOrder = {"caea", "cbtefchhsgen"})
 public class FECAEADetRequest extends FEDetRequest {
     @XmlElement(name = "CAEA")
     @Element(name = "CAEA")
     protected String caea;
+    @XmlElement(name = "CbteFchHsGen")
+    @Element(name = "CbteFchHsGen")
+    protected String cbteFchHsGen;
 
     /**
      * Obtiene el valor de la propiedad caea.
@@ -50,6 +55,32 @@ public class FECAEADetRequest extends FEDetRequest {
      */
     public void setCAEA(String value) {
         this.caea = value;
+    }
+    
+    /**
+     * Obtiene el valor de la propiedad cbtefchhsgen.
+     *
+     * @return possible object is {@link String }
+     */
+    public String getCbteFchHsGen() {
+        return cbteFchHsGen;
+    }
+    
+    public Date getCbteFchHsGenDate() {
+        return DateUtil.TO_DATETIME.apply(getCbteFch());
+    }
+
+    /**
+     * Define el valor de la propiedad caea.
+     *
+     * @param value allowed object is {@link String }
+     */
+    public void setCbteFchHsGen(String value) {
+        this.cbteFchHsGen = value;
+    }
+    
+    public void setCbteFchHsGenDate(Date cbteFch) {
+        setCbteFchHsGen(DateUtil.DATETIME_TO_STRING.apply(cbteFch));
     }
 
 }
