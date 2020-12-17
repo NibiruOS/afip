@@ -40,6 +40,7 @@ import java.math.BigDecimal;
  *         &lt;element name="fechaServicioDesde" type="{http://www.w3.org/2001/XMLSchema}date" minOccurs="0"/>
  *         &lt;element name="fechaServicioHasta" type="{http://www.w3.org/2001/XMLSchema}date" minOccurs="0"/>
  *         &lt;element name="fechaVencimientoPago" type="{http://www.w3.org/2001/XMLSchema}date" minOccurs="0"/>
+ *         &lt;element name="fechaHoraGen" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
  *         &lt;element name="arrayComprobantesAsociados" type="{http://impl.service.wsmtxca.afip.gov.ar/service/}ArrayComprobantesAsociadosType" minOccurs="0"/>
  *         &lt;element name="arrayOtrosTributos" type="{http://impl.service.wsmtxca.afip.gov.ar/service/}ArrayOtrosTributosType" minOccurs="0"/>
  *         &lt;element name="arrayItems" type="{http://impl.service.wsmtxca.afip.gov.ar/service/}ArrayItemsType"/>
@@ -76,6 +77,7 @@ import java.math.BigDecimal;
         "fechaServicioDesde",
         "fechaServicioHasta",
         "fechaVencimientoPago",
+        "fechaHoraGen",
         "arrayComprobantesAsociados",
         "arrayOtrosTributos",
         "arrayItems",
@@ -140,6 +142,9 @@ public class ComprobanteType {
     @XmlSchemaType(name = "date")
     @Element
     protected XMLGregorianCalendar fechaVencimientoPago;
+    @XmlSchemaType(name = "dateTime")
+    @Element
+    protected XMLGregorianCalendar fechaHoraGen;
     @Element
     protected ArrayComprobantesAsociadosType arrayComprobantesAsociados;
     @Element
@@ -568,6 +573,26 @@ public class ComprobanteType {
      */
     public void setFechaVencimientoPago(XMLGregorianCalendar value) {
         this.fechaVencimientoPago = value;
+    }
+    
+    /**
+     * Obtiene el valor de la propiedad fechaHoraGen.
+     *
+     * @return possible object is
+     * {@link XMLGregorianCalendar }
+     */
+    public XMLGregorianCalendar getFechaHoraGen() {
+        return fechaHoraGen;
+    }
+
+    /**
+     * Define el valor de la propiedad fechaHoraGen.
+     *
+     * @param value allowed object is
+     *              {@link XMLGregorianCalendar }
+     */
+    public void setFechaHoraGen(XMLGregorianCalendar value) {
+        this.fechaHoraGen = value;
     }
 
     /**
