@@ -45,7 +45,7 @@ public class CbteAsoc {
     @Element(name = "Cuit")
     protected String cuit;
     @XmlElement(name = "CbteFch")
-    @Element(name = "CbteFch")
+    @Element(name = "CbteFch", required = false)
     protected String cbteFch;
 
     /**
