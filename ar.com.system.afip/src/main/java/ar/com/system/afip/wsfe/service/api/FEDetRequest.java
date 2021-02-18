@@ -111,7 +111,7 @@ public class FEDetRequest {
     @Element(name = "Tributos", required = false)
     protected ArrayOfTributo tributos;
     @XmlElement(name = "Iva")
-    @Element(name = "Iva")
+    @Element(name = "Iva", required = false)
     protected ArrayOfAlicIva iva;
     @XmlElement(name = "Opcionales")
     @Element(name = "Opcionales", required = false)
