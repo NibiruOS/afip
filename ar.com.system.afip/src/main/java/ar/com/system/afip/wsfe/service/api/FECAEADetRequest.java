@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;extension base="{http://ar.gov.afip.dif.FEV1/}FEDetRequest">
  *       &lt;sequence>
  *         &lt;element name="CAEA" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="CbteFchHsGen" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="cbteFchHsGen" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/extension>
  *   &lt;/complexContent>
@@ -30,13 +30,13 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "FECAEADetRequest", propOrder = {"caea", "cbtefchhsgen"})
+@XmlType(name = "FECAEADetRequest", propOrder = {"caea", "cbteFchHsGen"})
 public class FECAEADetRequest extends FEDetRequest {
     @XmlElement(name = "CAEA")
     @Element(name = "CAEA")
     protected String caea;
-    @XmlElement(name = "CbteFchHsGen")
-    @Element(name = "CbteFchHsGen")
+    @XmlElement(name = "cbteFchHsGen")
+    @Element(name = "cbteFchHsGen")
     protected String cbteFchHsGen;
 
     /**

@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="FchVigHasta" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="FchTopeInf" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="FchProceso" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="Observaciones" type="{http://ar.gov.afip.dif.FEV1/}ArrayOfObs" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -35,7 +36,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "FECAEAGet", propOrder = {"caea", "periodo", "orden",
-        "fchVigDesde", "fchVigHasta", "fchTopeInf", "fchProceso"})
+        "fchVigDesde", "fchVigHasta", "fchTopeInf", "fchProceso", "observaciones"})
 public class FECAEAGet {
     @XmlElement(name = "CAEA")
     @Element(name = "CAEA")
@@ -58,6 +59,9 @@ public class FECAEAGet {
     @XmlElement(name = "FchProceso")
     @Element(name = "FchProceso")
     protected String fchProceso;
+    @XmlElement(name = "Observaciones")
+    @Element(name = "Observaciones", required = false)
+    protected ArrayOfObs observaciones;
 
     /**
      * Obtiene el valor de la propiedad caea.
@@ -175,6 +179,24 @@ public class FECAEAGet {
      */
     public void setFchProceso(String value) {
         this.fchProceso = value;
+    }
+    
+    /**
+     * Obtiene el valor de la propiedad observaciones.
+     *
+     * @return possible object is {@link ArrayOfObs }
+     */
+    public ArrayOfObs getObservaciones() {
+        return observaciones;
+    }
+
+    /**
+     * Define el valor de la propiedad observaciones.
+     *
+     * @param value allowed object is {@link ArrayOfObs }
+     */
+    public void setObservaciones(ArrayOfObs value) {
+        this.observaciones = value;
     }
 
 }
