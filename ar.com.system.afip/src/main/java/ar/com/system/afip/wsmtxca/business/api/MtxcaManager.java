@@ -4,64 +4,17 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import ar.com.system.afip.wsmtxca.service.api.AutorizarAjusteIVARequestType;
-import ar.com.system.afip.wsmtxca.service.api.AutorizarAjusteIVAResponseType;
-import ar.com.system.afip.wsmtxca.service.api.AutorizarComprobanteRequestType;
 import ar.com.system.afip.wsmtxca.service.api.AutorizarComprobanteResponseType;
 import ar.com.system.afip.wsmtxca.service.api.CAEAResponseType;
 import ar.com.system.afip.wsmtxca.service.api.CodigoDescripcionStringType;
 import ar.com.system.afip.wsmtxca.service.api.CodigoDescripcionType;
-import ar.com.system.afip.wsmtxca.service.api.ComprobanteCAEResponseType;
 import ar.com.system.afip.wsmtxca.service.api.ComprobanteType;
-import ar.com.system.afip.wsmtxca.service.api.ConsultaComprobanteRequestType;
-import ar.com.system.afip.wsmtxca.service.api.ConsultaUltimoComprobanteAutorizadoRequestType;
-import ar.com.system.afip.wsmtxca.service.api.ConsultarAlicuotasIVARequestType;
-import ar.com.system.afip.wsmtxca.service.api.ConsultarAlicuotasIVAResponseType;
-import ar.com.system.afip.wsmtxca.service.api.ConsultarCAEAEntreFechasRequestType;
-import ar.com.system.afip.wsmtxca.service.api.ConsultarCAEAEntreFechasResponseType;
-import ar.com.system.afip.wsmtxca.service.api.ConsultarCAEARequestType;
-import ar.com.system.afip.wsmtxca.service.api.ConsultarCAEAResponseType;
-import ar.com.system.afip.wsmtxca.service.api.ConsultarComprobanteRequestType;
 import ar.com.system.afip.wsmtxca.service.api.ConsultarComprobanteResponseType;
-import ar.com.system.afip.wsmtxca.service.api.ConsultarCondicionesIVARequestType;
-import ar.com.system.afip.wsmtxca.service.api.ConsultarCondicionesIVAResponseType;
-import ar.com.system.afip.wsmtxca.service.api.ConsultarCotizacionMonedaRequestType;
-import ar.com.system.afip.wsmtxca.service.api.ConsultarCotizacionMonedaResponseType;
-import ar.com.system.afip.wsmtxca.service.api.ConsultarMonedasRequestType;
-import ar.com.system.afip.wsmtxca.service.api.ConsultarMonedasResponseType;
-import ar.com.system.afip.wsmtxca.service.api.ConsultarPtosVtaCAEANoInformadosRequestType;
-import ar.com.system.afip.wsmtxca.service.api.ConsultarPtosVtaCAEANoInformadosResponseType;
-import ar.com.system.afip.wsmtxca.service.api.ConsultarPuntosVentaCAEARequestType;
-import ar.com.system.afip.wsmtxca.service.api.ConsultarPuntosVentaCAERequestType;
-import ar.com.system.afip.wsmtxca.service.api.ConsultarPuntosVentaRequestType;
-import ar.com.system.afip.wsmtxca.service.api.ConsultarPuntosVentaResponseType;
-import ar.com.system.afip.wsmtxca.service.api.ConsultarTiposComprobanteRequestType;
-import ar.com.system.afip.wsmtxca.service.api.ConsultarTiposComprobanteResponseType;
-import ar.com.system.afip.wsmtxca.service.api.ConsultarTiposDatosAdicionalesRequestType;
-import ar.com.system.afip.wsmtxca.service.api.ConsultarTiposDatosAdicionalesResponseType;
-import ar.com.system.afip.wsmtxca.service.api.ConsultarTiposDocumentoRequestType;
-import ar.com.system.afip.wsmtxca.service.api.ConsultarTiposDocumentoResponseType;
-import ar.com.system.afip.wsmtxca.service.api.ConsultarTiposTributoRequestType;
-import ar.com.system.afip.wsmtxca.service.api.ConsultarTiposTributoResponseType;
-import ar.com.system.afip.wsmtxca.service.api.ConsultarUltimoComprobanteAutorizadoRequestType;
-import ar.com.system.afip.wsmtxca.service.api.ConsultarUltimoComprobanteAutorizadoResponseType;
-import ar.com.system.afip.wsmtxca.service.api.ConsultarUnidadesMedidaRequestType;
-import ar.com.system.afip.wsmtxca.service.api.ConsultarUnidadesMedidaResponseType;
 import ar.com.system.afip.wsmtxca.service.api.DummyResponseType;
-import ar.com.system.afip.wsmtxca.service.api.ExceptionFaultMsg;
-import ar.com.system.afip.wsmtxca.service.api.InformarAjusteIVACAEARequestType;
-import ar.com.system.afip.wsmtxca.service.api.InformarAjusteIVACAEAResponseType;
-import ar.com.system.afip.wsmtxca.service.api.InformarCAEANoUtilizadoPtoVtaRequestType;
 import ar.com.system.afip.wsmtxca.service.api.InformarCAEANoUtilizadoPtoVtaResponseType;
-import ar.com.system.afip.wsmtxca.service.api.InformarCAEANoUtilizadoRequestType;
 import ar.com.system.afip.wsmtxca.service.api.InformarCAEANoUtilizadoResponseType;
-import ar.com.system.afip.wsmtxca.service.api.InformarComprobanteCAEARequestType;
 import ar.com.system.afip.wsmtxca.service.api.InformarComprobanteCAEAResponseType;
 import ar.com.system.afip.wsmtxca.service.api.PuntoVentaType;
-import ar.com.system.afip.wsmtxca.service.api.ResultadoSimpleType;
-import ar.com.system.afip.wsmtxca.service.api.SolicitarCAEARequestType;
-import ar.com.system.afip.wsmtxca.service.api.SolicitarCAEAResponseType;
-import ar.com.system.afip.wsmtxca.service.api.SolicitudCAEAType;
 
 public interface MtxcaManager {
 
@@ -72,7 +25,7 @@ public interface MtxcaManager {
 	 * @param comprobanteCAERequest
 	 * @return
 	 */
-	ComprobanteCAEResponseType autorizarComprobante(ComprobanteType comprobanteCAERequest);
+	AutorizarComprobanteResponseType autorizarComprobante(ComprobanteType comprobanteCAERequest);
 
 	/**
 	 * Solicitar CAEA.
@@ -168,7 +121,7 @@ public interface MtxcaManager {
 	 * Informar un CAEA no utilizado.
 	 * Permite informar un CAEA que no fue utilizado, es decir que ningun comprobante fue emitido con ese CAEA.
 	 */
-	ResultadoSimpleType informarCAEANoUtilizado(long caea);
+	InformarCAEANoUtilizadoResponseType informarCAEANoUtilizado(long caea);
 
 	/**
 	 * Consultar Tipos de Tributo.
@@ -180,7 +133,7 @@ public interface MtxcaManager {
 	 * Informar un CAEA no utilizado para un Punto de Venta.
 	 * Permite informar un CAEA que no fue utilizado para un Punto de Venta, es decir que ningun comprobante fue emitido con ese CAEA y ese Punto de Venta.
 	 */
-	ResultadoSimpleType informarCAEANoUtilizadoPtoVta(long caea, short numeroPuntoVenta);
+	InformarCAEANoUtilizadoPtoVtaResponseType informarCAEANoUtilizadoPtoVta(long caea, short numeroPuntoVenta);
 
 	/**
 	 * Consultar un CAEA previamente otorgado.

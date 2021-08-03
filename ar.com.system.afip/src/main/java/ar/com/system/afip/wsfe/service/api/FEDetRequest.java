@@ -39,6 +39,8 @@ import java.util.Date;
  *         &lt;element name="Tributos" type="{http://ar.gov.afip.dif.FEV1/}ArrayOfTributo" minOccurs="0"/>
  *         &lt;element name="Iva" type="{http://ar.gov.afip.dif.FEV1/}ArrayOfAlicIva" minOccurs="0"/>
  *         &lt;element name="Opcionales" type="{http://ar.gov.afip.dif.FEV1/}ArrayOfOpcional" minOccurs="0"/>
+ *         &lt;element name="Compradores" type="{http://ar.gov.afip.dif.FEV1/}ArrayOfComprador" "minOccurs="0"/>
+ *         &lt;element name="PeriodoAsoc" type="{http://ar.gov.afip.dif.FEV1/}PeriodoAsoc" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -50,7 +52,7 @@ import java.util.Date;
         "cbteDesde", "cbteHasta", "cbteFch", "impTotal", "impTotConc",
         "impNeto", "impOpEx", "impTrib", "impIVA", "fchServDesde",
         "fchServHasta", "fchVtoPago", "monId", "monCotiz", "cbtesAsoc",
-        "tributos", "iva", "opcionales"})
+        "tributos", "iva", "opcionales", "compradores", "periodoAsoc"})
 @XmlSeeAlso({FECAEADetRequest.class, FECAEDetRequest.class})
 public class FEDetRequest {
     @XmlElement(name = "Concepto")
@@ -116,7 +118,13 @@ public class FEDetRequest {
     @XmlElement(name = "Opcionales")
     @Element(name = "Opcionales", required = false)
     protected ArrayOfOpcional opcionales;
-
+    @XmlElement(name = "Compradores")
+    @Element(name = "Compradores", required = false)
+    protected ArrayOfComprador compradores;
+    @XmlElement(name = "PeriodoAsoc")
+    @Element(name = "PeriodoAsoc", required = false)
+    protected PeriodoAsoc periodoAsoc;
+    
     /**
      * Obtiene el valor de la propiedad concepto.
      */
@@ -210,7 +218,7 @@ public class FEDetRequest {
     }
 
     public void setCbteFchDate(Date cbteFch) {
-        setCbteFch(DateUtil.TO_STRING.apply(cbteFch));
+        setCbteFch(DateUtil.DATE_TO_STRING.apply(cbteFch));
     }
 
     /**
@@ -453,6 +461,42 @@ public class FEDetRequest {
      */
     public void setOpcionales(ArrayOfOpcional value) {
         this.opcionales = value;
+    }
+    
+    /**
+     * Obtiene el valor de la propiedad compradores.
+     *
+     * @return possible object is {@link ArrayOfComprador }
+     */
+    public ArrayOfComprador getCompradores() {
+        return compradores;
+    }
+
+    /**
+     * Define el valor de la propiedad compradores.
+     *
+     * @param value allowed object is {@link ArrayOfComprador }
+     */
+    public void setCopradores(ArrayOfComprador value) {
+        this.compradores = value;
+    }
+    
+    /**
+     * Obtiene el valor de la propiedad periodoAsoc.
+     *
+     * @return possible object is {@link PeriodoAsoc }
+     */
+    public PeriodoAsoc getPeriodoAsoc() {
+        return periodoAsoc;
+    }
+
+    /**
+     * Define el valor de la propiedad periodoAsoc.
+     *
+     * @param periodoAsoc allowed object is {@link PeriodoAsoc }
+     */
+    public void setPeriodoAsoc(PeriodoAsoc periodoAsoc) {
+        this.periodoAsoc = periodoAsoc;
     }
 
 }

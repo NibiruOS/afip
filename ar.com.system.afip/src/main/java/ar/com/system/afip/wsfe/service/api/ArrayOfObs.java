@@ -7,7 +7,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -35,6 +37,23 @@ public class ArrayOfObs {
     @XmlElement(name = "Obs", nillable = true)
     @ElementList(name = "Obss", entry = "Obs", type = Obs.class, inline = true)
     protected List<Obs> obs;
+    
+    public enum ObsNonExclusive {
+        OBS_10017(10017),
+        OBS_10041(10041),
+        OBS_10063(10063),
+        OBS_10188(10188),
+        OBS_10209(10209),
+        OBS_10217(10217),
+        ;
+        private int code;
+        private ObsNonExclusive(int code) {
+            this.code = code;
+        }
+        public int getCode() {
+            return code;
+        }
+    }
 
     /**
      * Gets the value of the obs property.
@@ -61,6 +80,28 @@ public class ArrayOfObs {
             obs = new ArrayList<Obs>();
         }
         return this.obs;
+    }
+    
+    public List<Obs> getObsExclusive() {
+        List<Obs> obsExlusive = new ArrayList();
+        if (obs != null) {
+            obsExlusive = obs.stream()
+                    .filter(obs1 -> !Arrays.asList(ObsNonExclusive.values()).stream().filter(a1 -> a1.getCode() == obs1.getCode())
+                    .findFirst().isPresent())
+                    .collect(Collectors.toList());
+        }
+        return obsExlusive;
+    }
+
+    public List<Obs> getObsNonExclusive() {
+        List<Obs> obsNonExlusive = new ArrayList();
+        if (obs != null) {
+            obsNonExlusive = obs.stream()
+                    .filter(obs1 -> Arrays.asList(ObsNonExclusive.values()).stream().filter(a1 -> a1.getCode() == obs1.getCode())
+                    .findFirst().isPresent())
+                    .collect(Collectors.toList());
+        }
+        return obsNonExlusive;
     }
 
 }

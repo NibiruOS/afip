@@ -282,6 +282,6 @@ public class WsfeManagerImpl implements WsfeManager {
     private static Collection<? extends WsfeError> getObservations(
             FECAEDetResponse detResponse) {
         return detResponse.getObservaciones() != null ? detResponse
-                .getObservaciones().getObs() : null;
+                .getObservaciones().getObsExclusive() : null;
     }
 }

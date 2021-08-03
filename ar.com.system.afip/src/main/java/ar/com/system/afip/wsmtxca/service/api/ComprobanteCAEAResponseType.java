@@ -46,6 +46,9 @@ public class ComprobanteCAEAResponseType {
     @Element
     protected int numeroComprobante;
 
+    public ComprobanteCAEAResponseType() {
+        
+    }
 
     public ComprobanteCAEAResponseType(long caea, short codigoTipoComprobante, short numeroPuntoVenta,
                                        int numeroComprobante) {

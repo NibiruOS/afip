@@ -12,7 +12,7 @@ public class DateUtil {
         private static SimpleDateFormat dateTimeFormat = new SimpleDateFormat(
 			"yyyyMMddHHmmss");
 
-	public static Function<Date, String> TO_STRING = date -> dateFormat.format(date);
+	public static Function<Date, String> DATE_TO_STRING = date -> dateFormat.format(date);
         public static Function<Date, String> DATETIME_TO_STRING = date -> dateTimeFormat.format(date);
 
 	public static Function<String, Date> TO_DATE = stringDate -> {

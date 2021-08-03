@@ -36,6 +36,8 @@ import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
+import com.google.common.base.Strings;
 
 public class BouncyCastleWsaaManager implements WsaaManager {
     static final String SIGNING_ALGORITHM = "SHA512withRSA";
@@ -130,17 +132,17 @@ public class BouncyCastleWsaaManager implements WsaaManager {
         checkNotNull(service);
         try {
             CompanyInfo companyInfo = wsaaDao.loadActiveCompanyInfo();
-            checkNotNull(companyInfo.getName(),
+            checkState(!Strings.isNullOrEmpty(companyInfo.getName()),
                     "Debe configurar el nombre de la empresa antes de realizar el login");
-            checkNotNull(companyInfo.getUnit(),
+            checkState(!Strings.isNullOrEmpty(companyInfo.getUnit()),
                     "Debe configurar la unidad oranizacional  antes de realizar el login");
-            checkNotNull(companyInfo.getCuit(),
+            checkState(!Strings.isNullOrEmpty(companyInfo.getCuit()),
                     "Debe configurar el CUIT antes de realizar el login");
-            checkNotNull(companyInfo.getPrivateKey(),
+            checkState(!Strings.isNullOrEmpty(companyInfo.getPrivateKey()),
                     "Debe configurar la clave privada antes de realizar el login");
-            checkNotNull(companyInfo.getPublicKey(),
+            checkState(!Strings.isNullOrEmpty(companyInfo.getPublicKey()),
                     "Debe configurar la clave publica antes de realizar el login");
-            checkNotNull(companyInfo.getCertificate(),
+            checkState(!Strings.isNullOrEmpty(companyInfo.getCertificate()),
                     "Debe configurar el certificado antes de realizar el login");
             Setup setup = setupDao.readSetup();
 

@@ -55,13 +55,13 @@ public class MtxcaManagerImpl implements MtxcaManager {
     }
 
     @Override
-    public ComprobanteCAEResponseType autorizarComprobante(ComprobanteType comprobanteCAERequest) {
+    public AutorizarComprobanteResponseType autorizarComprobante(ComprobanteType comprobanteCAERequest) {
         return wsaaTemplate.runAuhtenticated(
                 credentials -> checkErrors(() -> service.autorizarComprobante(
                         new AutorizarComprobanteRequestType(
                                 AuthRequestType.fromCredentials(credentials, cuit), comprobanteCAERequest)
                 ))
-        ).getComprobanteResponse();
+        );
     }
 
     @Override
@@ -220,14 +220,14 @@ public class MtxcaManagerImpl implements MtxcaManager {
     }
 
     @Override
-    public ResultadoSimpleType informarCAEANoUtilizado(long caea) {
+    public InformarCAEANoUtilizadoResponseType informarCAEANoUtilizado(long caea) {
         return wsaaTemplate.runAuhtenticated(
                 credentials -> checkErrors(
                         () -> service.informarCAEANoUtilizado(
                                 new InformarCAEANoUtilizadoRequestType(
                                         AuthRequestType.fromCredentials(credentials, cuit), caea))
                 )
-        ).getResultado();
+        );
     }
 
     @Override
@@ -242,14 +242,14 @@ public class MtxcaManagerImpl implements MtxcaManager {
     }
 
     @Override
-    public ResultadoSimpleType informarCAEANoUtilizadoPtoVta(long caea, short numeroPuntoVenta) {
+    public InformarCAEANoUtilizadoPtoVtaResponseType informarCAEANoUtilizadoPtoVta(long caea, short numeroPuntoVenta) {
         return wsaaTemplate.runAuhtenticated(
                 credentials -> checkErrors(
                         () -> service.informarCAEANoUtilizadoPtoVta(
                                 new InformarCAEANoUtilizadoPtoVtaRequestType(
                                         AuthRequestType.fromCredentials(credentials, cuit), caea, numeroPuntoVenta))
                 )
-        ).getResultado();
+        );
     }
 
     @Override
