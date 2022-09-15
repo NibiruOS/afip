@@ -3,7 +3,7 @@ allprojects {
     apply plugin: 'eclipse'
     apply plugin: 'maven'
 
-    version = '1.3.0'
+    version = '1.5.0'
     group = 'io.github.nibiruos.afip'
 
     repositories {

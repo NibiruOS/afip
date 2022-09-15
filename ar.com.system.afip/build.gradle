@@ -1,5 +1,5 @@
 dependencies {
-    compile 'org.bouncycastle:bcpkix-jdk15on:1.52'
+    compile 'org.bouncycastle:bcpkix-jdk15to18:1.71'
     compile "com.google.code.findbugs:jsr305:2.0.3"
     compile 'com.google.code.gson:gson:2.3.1'
     compile 'com.google.guava:guava:18.0'
